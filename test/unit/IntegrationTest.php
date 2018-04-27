@@ -35,4 +35,22 @@ class IntegrationTest extends TestCase {
 			$allElements->length
 		);
 	}
+
+	public function testComplexSelector() {
+		$selectors = [
+			"body>header h1 a" => "",
+			"nav.c-menu .selected>a span" => "",
+			"#output td[data-cost]" => "",
+			"[data-bind:text=something]" => "",
+			"[data-bind:text='something']" => "",
+		];
+
+		foreach($selectors as $css => $xpathExpected) {
+			$translator = new Translator($css);
+			self::assertEquals(
+				$xpathExpected,
+				(string)$translator
+			);
+		}
+	}
 }
