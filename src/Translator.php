@@ -20,9 +20,8 @@ class Translator {
 
 	protected $cssSelector;
 
-	public function __construct(string $cssSelector, DOMNode $referenceNode = null) {
+	public function __construct(string $cssSelector) {
 		$this->cssSelector = $cssSelector;
-		$this->referenceNode = $referenceNode;
 	}
 
 	public function __toString():string {
@@ -33,12 +32,12 @@ class Translator {
 		return $this->convert($this->cssSelector);
 	}
 
-	protected function convert($css) {
+	protected function convert(string $css):string {
 		$thread = $this->preg_match_collated(self::cssRegex, $css);
 		$thread = array_values($thread);
 
-		$xpath = ['//'];
-		$prevType = '';
+		$xpath = [".//"];
+		$prevType = "";
 		foreach($thread as $k => $item) {
 			$next = isset($thread[$k + 1])
 				? $thread[$k + 1]
@@ -174,8 +173,17 @@ class Translator {
 		return implode("", $xpath);
 	}
 
-	protected function preg_match_collated($regex, $string, callable $transform=null): array {
-		preg_match_all($regex, $string, $matches, PREG_PATTERN_ORDER);
+	protected function preg_match_collated(
+		string $regex,
+		string $string,
+		callable $transform = null
+	):array {
+		preg_match_all(
+			$regex,
+			$string,
+			$matches,
+			PREG_PATTERN_ORDER
+		);
 
 		$set = [];
 		foreach($matches[0] as $k => $v) {

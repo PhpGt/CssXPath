@@ -13,7 +13,7 @@ class IntegrationTest extends TestCase {
 		$bodyTranslator = new Translator("body");
 		$h1Translator = new Translator("h1");
 		$emTranslator = new Translator("p em");
-		$allTranslator = new Translator("*", $document->body);
+		$allTranslator = new Translator("*");
 
 		$body = $document->xPath($bodyTranslator)->current();
 		$h1 = $document->xPath($h1Translator)->current();
@@ -23,9 +23,16 @@ class IntegrationTest extends TestCase {
 		self::assertEquals("h1", $h1->tagName);
 		self::assertEquals("em", $em->tagName);
 
+		$allElements = $document->xPath($allTranslator);
+		$allElementsInBody = $document->body->xPath($allTranslator);
+
 		self::assertCount(
 			3, // h1, p, em (not body, as body is the referenceNode)
-			$document->xPath($allTranslator)
+			$allElementsInBody
+		);
+		self::assertGreaterThan(
+			$allElementsInBody->length,
+			$allElements->length
 		);
 	}
 }
