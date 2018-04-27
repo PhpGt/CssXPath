@@ -8,7 +8,7 @@ use Gt\CssXPath\Translator;
 use Gt\Dom\HTMLDocument;
 
 class IntegrationTest extends TestCase {
-	public function testBody() {
+	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
 		$h1Translator = new Translator("h1");
@@ -36,21 +36,51 @@ class IntegrationTest extends TestCase {
 		);
 	}
 
-	public function testComplexSelector() {
-		$selectors = [
-			"body>header h1 a" => "",
-			"nav.c-menu .selected>a span" => "",
-			"#output td[data-cost]" => "",
-			"[data-bind:text=something]" => "",
-			"[data-bind:text='something']" => "",
-		];
+	public function testComplex() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
 
-		foreach($selectors as $css => $xpathExpected) {
-			$translator = new Translator($css);
+		$titleTranslator = new Translator("head>title");
+		$logoLinkText = new Translator(".c-logo a>span");
+		$selectedNavMenu = new Translator(".c-menu li.selected");
+		$articleParagraphs = new Translator("main>article .content p");
+		$contactFormEmailInput = new Translator(
+			"body>footer form input[name='email']"
+		);
+		$contactFormEmailInputNoQuotes = new Translator(
+			"body>footer form input[name=email]"
+		);
+		$contactFormEmailInputDoubleQuotes = new Translator(
+			"body>footer form input[name=\"email\"]"
+		);
+		$contactFormButton = new Translator(
+			"body>footer form button[name=do][value=contact]"
+		);
+
+		$titleEl = $document->xPath($titleTranslator)->current();
+		self::assertEquals("HTML Complex", $titleEl->innerText);
+
+		$logoLinkTextEl = $document->xPath($logoLinkText)->current();
+		self::assertEquals("Site logo", $logoLinkTextEl->innerText);
+
+		$selectedNavMenuEl = $document->xPath($selectedNavMenu)->current();
+		self::assertEquals("Home", trim($selectedNavMenuEl->innerText));
+
+		$articleParagraphsList = $document->xPath($articleParagraphs);
+		self::assertEquals(3, $articleParagraphsList->length);
+
+		$contactFormEmailInputElArray = [
+			$document->xPath($contactFormEmailInput)->current(),
+			$document->xPath($contactFormEmailInputNoQuotes)->current(),
+			$document->xPath($contactFormEmailInputDoubleQuotes)->current(),
+		];
+		foreach($contactFormEmailInputElArray as $el) {
 			self::assertEquals(
-				$xpathExpected,
-				(string)$translator
+				"email",
+				$el->getAttribute("name")
 			);
 		}
+
+		$contactFormButtonEl = $document->xPath($contactFormButton)->current();
+		self::assertEquals("Send", $contactFormButtonEl->innerText);
 	}
 }
