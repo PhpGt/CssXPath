@@ -213,46 +213,4 @@ class Translator {
 
 		return $set;
 	}
-
-	protected function xpath($html, $path) {
-		$doc = new DOMDocument();
-		@$doc->loadHTML($html);
-
-		$xpath = new DOMXpath($doc);
-
-		$elements = $xpath->query($path);
-
-		if(!$elements) {
-			return '';
-		}
-
-		if($elements->length > 1) {
-			$return = [];
-			foreach($elements as $element) {
-				if($element->childNodes->length > 1) {
-					$return[] = utf8_decode(nodeToHtml($element)) . "\n";
-				}
-				else {
-					$return[] = utf8_decode($element->nodeValue) . "\n";
-				}
-			}
-		}
-		else {
-			$return = '';
-			foreach($elements as $element) {
-				if($element->childNodes->length > 1) {
-					$return .= utf8_decode(nodeToHtml($element)) . "\n";
-				}
-				else {
-					$return .= utf8_decode($element->nodeValue) . "\n";
-				}
-			}
-		}
-
-		return $return;
-	}
-
-	protected function csspath($html, $path) {
-		return $this->xpath($html, $this->convert($path));
-	}
 }
