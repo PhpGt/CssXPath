@@ -10,7 +10,7 @@ class Helper {
 	<title>HTML Simple</title>
 </head>
 <body>
-	<h1>HTML Simple</h1>
+	<h1 id="the-title">HTML Simple</h1>
 	<p>This is a <em>very</em> simple HTML document for testing the basics.</p>
 </body>
 </html>

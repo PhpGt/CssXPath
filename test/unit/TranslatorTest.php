@@ -68,6 +68,26 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testId() {
+		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$idSelector = new Translator("#the-title");
+		$specificIdSelector = new Translator("h1#the-title");
+		$wrongIdSelector = new Translator("h1#not-the-title");
+
+		self::assertCount(
+			1,
+			$document->xPath($idSelector)
+		);
+		self::assertCount(
+			1,
+			$document->xPath($specificIdSelector)
+		);
+		self::assertCount(
+			0,
+			$document->xPath($wrongIdSelector)
+		);
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
