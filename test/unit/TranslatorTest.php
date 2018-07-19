@@ -8,6 +8,27 @@ use Gt\CssXPath\Translator;
 use Gt\Dom\HTMLDocument;
 
 class TranslatorTest extends TestCase {
+	public function testStar() {
+		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$starSelector = new Translator("*");
+		$allStarNodeList = $document->xPath($starSelector);
+		$bodyStarNodeList = $document->body->xPath($starSelector);
+
+		$expectedNodeNames = [
+			"outer" => ["html", "head", "meta", "title", "body"],
+			"inner" => ["h1", "p", "em"],
+		];
+
+		$totalExpectedNodes = count($expectedNodeNames["outer"])
+			+ count($expectedNodeNames["inner"]);
+
+		self::assertCount($totalExpectedNodes, $allStarNodeList);
+		self::assertCount(
+			count($expectedNodeNames["inner"]),
+			$bodyStarNodeList
+		);
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
