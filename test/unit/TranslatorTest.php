@@ -54,6 +54,20 @@ class TranslatorTest extends TestCase {
 		}
 	}
 
+	public function testChild() {
+		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$pWithEmChild = new Translator("p>em");
+		$bodyWithEmChild = new Translator("body>em");
+
+		$element = $document->xPath($pWithEmChild)->current();
+		self::assertEquals("em", strtolower($element->tagName));
+
+		self::assertCount(
+			0,
+			$document->xPath($bodyWithEmChild)
+		);
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
