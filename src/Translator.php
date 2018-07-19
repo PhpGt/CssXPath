@@ -15,7 +15,7 @@ class Translator {
 		. '|(\.(?P<class>[\w-]*))'
 		. '|(?P<sibling>\s*\+\s*)'
 		. "(\[(?P<attribute>[\w-]*)((?P<avmod>.*=)*(?P<avvalue>[\\\"\'][^\"\']*[\\\"\'])\])*)"
-		. '|(?P<descendant>\s+)'
+		. '|(?P<descendant>[^\+\s]+)'
 		. '/';
 
 	protected $cssSelector;

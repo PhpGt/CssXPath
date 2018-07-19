@@ -71,6 +71,9 @@ HTML;
 			<p>Example article paragraph 2.</p>
 			<p>Example article paragraph 3.</p>
 		</div>
+		<div class="details">
+			<p>Here are some details: 12345</p>
+		</div>
 	</article>
 </main>
 

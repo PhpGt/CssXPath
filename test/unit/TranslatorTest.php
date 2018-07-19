@@ -88,6 +88,25 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testSibling() {
+// Note: "+" is the adjacent sibling selector - only matching elements that come immediately after
+// another. The "~" operator is general sibling selector.
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+// In this selector example, we should be selecting the first div after the header
+// (appearing in the body>main>article element)
+		$inputSiblingSelector = new Translator("header + div");
+		$inputSiblingSelectorNoWs = new Translator("header+div");
+
+		self::assertCount(
+			1,
+			$document->xPath($inputSiblingSelector)
+		);
+		self::assertCount(
+			1,
+			$document->xPath($inputSiblingSelectorNoWs)
+		);
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
