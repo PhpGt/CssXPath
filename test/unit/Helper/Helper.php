@@ -57,6 +57,8 @@ HTML;
 </header>
 
 <main>
+	<p>I'm a paragraph, but I'm not part of the article.</p>
+	
 	<article>
 		<header>
 			<h1>

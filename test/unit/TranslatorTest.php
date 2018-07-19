@@ -107,6 +107,16 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testDescendant() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$articlePSelector = new Translator("article p");
+
+		self::assertCount(
+			4,
+			$document->xPath($articlePSelector)
+		);
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
