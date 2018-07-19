@@ -29,6 +29,31 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testElement() {
+		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$nodeNames = ["title", "body", "h1", "em"];
+		$nonNodeNames = ["li", "table"];
+
+		foreach($nodeNames as $nodeName) {
+			$selector = new Translator($nodeName);
+			$element = $document->xPath($selector)->current();
+			self::assertEquals(
+				$nodeName,
+				strtolower(
+						$element->tagName
+					)
+			);
+		}
+
+		foreach($nonNodeNames as $nodeName) {
+			$selector = new Translator($nodeName);
+			self::assertCount(
+				0,
+				$document->xPath($selector)
+			);
+		}
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
