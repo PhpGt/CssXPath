@@ -12,7 +12,7 @@ class Translator {
 		. '|(?P<element>[\w-]*)'
 		. '|(?P<child>\s*>\s*)'
 		. '|(#(?P<id>[\w-]*))'
-		. '|(\.(?P<class>\w*))'
+		. '|(\.(?P<class>[\w-]*))'
 		. '|(?P<sibling>\s*\+\s*)'
 		. "(\[(?P<attribute>[\w-]*)((?P<avmod>.*=)*(?P<avvalue>[\\\"\'][^\"\']*[\\\"\'])\])*)"
 		. '|(?P<descendant>\s+)'
