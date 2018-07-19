@@ -90,7 +90,7 @@ HTML;
 			<input name="email" type="email" placeholder="e.g. j.smith@email.com" required />
 		</label>
 		<label>
-			<span>Your mesage</span>
+			<span>Your message</span>
 			<textarea></textarea>
 		</label>
 		<button name="do" value="contact">Send</button>
