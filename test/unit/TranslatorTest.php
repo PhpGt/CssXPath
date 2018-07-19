@@ -7,7 +7,7 @@ use Gt\CssXPath\Test\Helper\Helper;
 use Gt\CssXPath\Translator;
 use Gt\Dom\HTMLDocument;
 
-class IntegrationTest extends TestCase {
+class TranslatorTest extends TestCase {
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
