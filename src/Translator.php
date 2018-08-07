@@ -14,7 +14,7 @@ class Translator {
 		. '|(#(?P<id>[\w-]*))'
 		. '|(\.(?P<class>[\w-]*))'
 		. '|(?P<sibling>\s*\+\s*)'
-		. "(\[(?P<attribute>[\w-]*)((?P<avmod>.*=)*(?P<avvalue>[\\\"\'][^\"\']*[\\\"\'])\])*)"
+		. "|(\[(?P<attribute>[\w-]*)((?P<attribute_equals>[=~$]+)(?P<attribute_value>[^\]]+))*\])"
 		. '|(?P<descendant>\s+)'
 		. '/';
 
@@ -46,7 +46,7 @@ class Translator {
 			switch ($item['type']) {
 			case 'star':
 			case 'element':
-				$xpath[] = $item['content'];
+				$xpath []= $item['content'];
 				break;
 
 			case 'pseudo':
@@ -59,11 +59,11 @@ class Translator {
 				case 'disabled':
 				case 'checked':
 				case 'selected':
-					$xpath[] = "[@{$item['content']}";
+					$xpath []= "[@{$item['content']}";
 					break;
 
 				case 'text':
-					$xpath[] = '[@type="text"]';
+					$xpath []= '[@type="text"]';
 					break;
 
 				case 'contains':
@@ -71,7 +71,7 @@ class Translator {
 						continue;
 					}
 
-					$xpath[] = "[contains(text(),$specifier)]";
+					$xpath []= "[contains(text(),$specifier)]";
 					break;
 
 				case 'first-child':
@@ -91,7 +91,7 @@ class Translator {
 						$xpath[$prev] = str_replace(']', " and position() = $specifier]", $xpath[$prev]);
 					}
 					else {
-						$xpath[] = "[$specifier]";
+						$xpath []= "[$specifier]";
 					}
 					break;
 				case 'nth-of-type':
@@ -103,59 +103,67 @@ class Translator {
 					$previous = $xpath[$prev];
 
 					if (substr($previous, -1, 1) === ']') {
-						$xpath[] = "[$specifier]";
+						$xpath []= "[$specifier]";
 					} else {
-						$xpath[] = "[$specifier]";
+						$xpath []= "[$specifier]";
 					}
 					break;
 				}
 				break;
 
 			case 'child':
-				$xpath[] = '/';
+				$xpath []= '/';
 				break;
 
 			case 'id':
-				$xpath[] = ($prevType != 'element'  ? '*' : '') . "[@id='{$item['content']}']";
+				$xpath []= ($prevType != 'element'  ? '*' : '') . "[@id='{$item['content']}']";
 				break;
 
 			case 'class':
-				$xpath[] = ($prevType != 'element'  ? '*' : '') . "[contains(concat(\" \",@class,\" \"),concat(\" \",\"{$item['content']}\",\" \"))]";
+				$xpath []= ($prevType != 'element'  ? '*' : '') . "[contains(concat(\" \",@class,\" \"),concat(\" \",\"{$item['content']}\",\" \"))]";
 				break;
 
 			case 'sibling':
-				$xpath[] = "/following-sibling::*[1]/self::";
+				$xpath []= "/following-sibling::*[1]/self::";
 				break;
 
 			case 'attribute':
-				if (!$next || $next['type'] != 'avmod') {
-					$xpath[] = "[@{$item['content']}]";
+				if(!$prevType) {
+					$xpath []= "*";
+				}
 
+				if (!$next || $next['type'] != 'attribute_equals') {
+					$xpath []= "[@{$item['content']}]";
 					continue;
 				}
 
 				$value = $thread[$k+2];
+				$valueString = trim(
+					$value['content'],
+					" '\""
+				);
 
-				switch ($next['content']) {
+				$equalsType = $next['content'];
+				switch ($equalsType) {
 				case '=':
-					$xpath[] = "[@{$item['content']}={$value['content']}]";
+					$xpath []= "[@{$item['content']}=\"{$valueString}\"]";
 					break;
 
 				case '~=':
-					$xpath[] = "["
+					$xpath []= "["
 						. "contains("
 						. "concat(\" \",@{$item['content']},\" \"),"
-						. "concat(\" \",\"{$value['content']}\",\" \")"
+						. "concat(\" \",\"{$valueString}\",\" \")"
 						. ")"
 						. "]";
 					break;
 
 				case '$=':
-					$xpath[] = "["
+					$xpath []= "["
 						. "substring("
 						. "@{$item['content']},"
 						. "string-length(@{$item['content']})-" . strlen($item['content'])
-						. ")=\"{$value['content']}\""
+						. ")=\"{$valueString}\""
 						. "]";
 					break;
 
@@ -163,7 +171,7 @@ class Translator {
 				break;
 
 			case 'descendant':
-				$xpath[] = '//';
+				$xpath []= '//';
 				break;
 			}
 
@@ -202,11 +210,20 @@ class Translator {
 					continue;
 				}
 
+				$toSet = null;
+
 				if($transform) {
-					$set[$i] = $transform($k, $match);
+					$toSet = $transform($k, $match);
 				}
 				else {
-					$set[$i] = ['type' => $k, 'content' => $match];
+					$toSet = ['type' => $k, 'content' => $match];
+				}
+
+				if(!isset($set[$i])) {
+					$set [$i]= $toSet;
+				}
+				else {
+					$set []= $toSet;
 				}
 			}
 		}

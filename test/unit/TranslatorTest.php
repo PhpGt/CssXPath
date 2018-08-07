@@ -120,25 +120,27 @@ class TranslatorTest extends TestCase {
 	public function testAttribute() {
 		$document = new HTMLDocument(Helper::HTML_COMPLEX);
 		$attributeRequiredKeySelector = new Translator("[required]");
-		$attributeNameSelector = new Translator("[name=your-name]");
-		$attributeNameSelectorWithQuotes = new Translator(
-			"[name='your-name']"
-		);
-		$attributeNameSelectorWithDoubleQuotes = new Translator(
-			"[name=\"your-name\"]"
-		);
-
 		self::assertCount(
 			2,
 			$document->xPath($attributeRequiredKeySelector)
 		);
+
+		$attributeNameSelector = new Translator("[name=your-name]");
 		self::assertCount(
 			1,
 			$document->xPath($attributeNameSelector)
 		);
+
+		$attributeNameSelectorWithQuotes = new Translator(
+			"[name='your-name']"
+		);
 		self::assertCount(
 			1,
 			$document->xPath($attributeNameSelectorWithQuotes)
+		);
+
+		$attributeNameSelectorWithDoubleQuotes = new Translator(
+			"[name=\"your-name\"]"
 		);
 		self::assertCount(
 			1,
