@@ -148,6 +148,14 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testAttributeTildeSelector() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$contentElement = $document->querySelector("article .content");
+
+		$selector = "[data-categories~=test]";
+		self::assertSame($contentElement, $document->querySelector($selector));
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
