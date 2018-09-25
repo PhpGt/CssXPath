@@ -1,4 +1,4 @@
 /vendor
 /.idea
-/test/_coverage
+/test/unit/_coverage
 /composer.phar
