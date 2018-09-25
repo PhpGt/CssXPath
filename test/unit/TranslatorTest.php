@@ -152,8 +152,8 @@ class TranslatorTest extends TestCase {
 		$document = new HTMLDocument(Helper::HTML_COMPLEX);
 		$contentElement = $document->querySelector("article .content");
 
-		$selector = "[data-categories~=test]";
-		self::assertSame($contentElement, $document->querySelector($selector));
+		$selector = new Translator("[data-categories~=test]");
+		self::assertSame($contentElement, $document->xPath($selector)[0]);
 	}
 
 	public function testSimple() {
