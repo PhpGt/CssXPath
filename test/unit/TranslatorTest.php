@@ -171,6 +171,15 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testAttributeDollarSelector() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$selector = new Translator("[data-test-thing$=test]");
+		self::assertCount(
+			2,
+			$document->xPath($selector)
+		);
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");
