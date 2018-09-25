@@ -153,7 +153,22 @@ class TranslatorTest extends TestCase {
 		$contentElement = $document->querySelector("article .content");
 
 		$selector = new Translator("[data-categories~=test]");
-		self::assertSame($contentElement, $document->xPath($selector)[0]);
+		self::assertSame(
+			$contentElement,
+			$document->xPath($selector)[0]
+		);
+
+		$selector = new Translator("[data-categories~=blog-test]");
+		self::assertSame(
+			$contentElement,
+			$document->xpath($selector)[0]
+		);
+
+		$selector = new Translator("[data-categories~=example]");
+		self::assertSame(
+			$contentElement,
+			$document->xpath($selector)[0]
+		);
 	}
 
 	public function testSimple() {
