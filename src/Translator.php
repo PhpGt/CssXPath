@@ -162,8 +162,9 @@ class Translator {
 					$xpath []= "["
 						. "substring("
 						. "@{$item['content']},"
-						. "string-length(@{$item['content']})-" . strlen($item['content'])
-						. ")=\"{$valueString}\""
+						. "string-length(@{$item['content']}) - "
+						. "string-length(\"{$valueString}\") + 1)"
+						. "=\"{$valueString}\""
 						. "]";
 					break;
 
