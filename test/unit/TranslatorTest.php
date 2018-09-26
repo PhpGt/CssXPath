@@ -180,6 +180,27 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testClassSelector() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$navElement = $document->xPath(
+			new Translator(".c-menu")
+		)[0];
+		self::assertEquals(
+			"NAV",
+			strtoupper($navElement->tagName)
+		);
+
+		$navElement2 = $document->xPath(
+			new Translator("nav.c-menu")
+		)[0];
+		self::assertSame($navElement, $navElement2);
+
+		$navElement3 = $document->xPath(
+			new Translator("nav.c-menu.main-selection")
+		)[0];
+		self::assertSame($navElement, $navElement3);
+	}
+
 	public function testSimple() {
 		$document = new HTMLDocument(Helper::HTML_SIMPLE);
 		$bodyTranslator = new Translator("body");

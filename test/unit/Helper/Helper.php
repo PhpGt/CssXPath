@@ -33,7 +33,7 @@ HTML;
 		</a>
 	</h1>
 	
-	<nav class="c-menu">
+	<nav class="c-menu main-selection">
 		<input type="checkbox" id="toggle-menu" />
 		<label for="toggle-menu">
 			<span>Menu</span>

@@ -167,7 +167,6 @@ class Translator {
 						. "=\"{$valueString}\""
 						. "]";
 					break;
-
 				}
 				break;
 
