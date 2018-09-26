@@ -1,8 +1,6 @@
 <?php
 namespace Gt\CssXPath;
 
-use DOMNode;
-
 class Translator {
 	const cssRegex =
 		'/'
