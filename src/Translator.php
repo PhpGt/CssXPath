@@ -118,7 +118,9 @@ class Translator {
 				break;
 
 			case 'class':
-				$xpath []= ($prevType != 'element'  ? '*' : '') . "[contains(concat(\" \",@class,\" \"),concat(\" \",\"{$item['content']}\",\" \"))]";
+				// https://devhints.io/xpath#class-check
+				$xpath []= ($prevType != 'element'  ? '*' : '')
+					. "[contains(concat(' ',normalize-space(@class),' '),' {$item['content']} ')]";
 				break;
 
 			case 'sibling':
