@@ -195,7 +195,7 @@ class TranslatorTest extends TestCase {
 		)[0];
 		self::assertSame($navElement, $navElement2);
 
-		$navElement3 = $document->xPath(
+ 		$navElement3 = $document->xPath(
 			new Translator("nav.c-menu.main-selection")
 		)[0];
 		self::assertSame($navElement, $navElement3);

@@ -119,7 +119,7 @@ class Translator {
 
 			case 'class':
 				// https://devhints.io/xpath#class-check
-				$xpath []= ($prevType != 'element'  ? '*' : '')
+				$xpath []= (($prevType != 'element' && $prevType != 'class') ? '*' : '')
 					. "[contains(concat(' ',normalize-space(@class),' '),' {$item['content']} ')]";
 				break;
 
