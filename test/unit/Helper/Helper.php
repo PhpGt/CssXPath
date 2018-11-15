@@ -101,5 +101,64 @@ HTML;
 </html>
 HTML;
 
+	const HTML_FORM = <<<HTML
+<!doctype html>
+<form method="post">
+
+	<label>
+		<span>Name</span>
+		<input name="name" required />
+	</label>
+	<p>
+		<span>Gender</span>
+	</p>
+	<label>
+		<span>Male</span>
+		<input type="radio" name="gender" value="m" />
+	</label>
+	<label>
+		<span>Female</span>
+		<input type="radio" name="gender" value="f" checked />
+	</label>
+	<label>
+		<span>Other</span>
+		<input type="radio" name="gender" value="o" />
+	</label>
+	
+	<label>
+		<span>Age range</span>
+		<select name="age">
+			<option value="<18" disabled>0-17</option>
+			<option value="18-35">18-35</option>	
+			<option value="36-60" selected>36-60</option>	
+			<option value=">60">60+</option>
+		</select>
+	</label>
+	<p>
+		<span>Interests</span>
+	</p>
+	<label>
+		<span>Baking</span>
+		<input type="checkbox" name="interest[]" value="baking" />	
+	</label>
+	<label>
+		<span>Colouring</span>
+		<input type="checkbox" name="interest[]" value="colouring" checked />	
+	</label>
+	<label>
+		<span>DIY</span>
+		<input type="checkbox" name="interest[]" value="diy" />	
+	</label>
+	<label>
+		<span>Knitting</span>
+		<input type="checkbox" name="interest[]" value="knitting" checked />	
+	</label>
+	<label>
+		<span>Photography</span>
+		<input type="checkbox" name="interest[]" value="photography" checked />	
+	</label>
+</form>
+HTML;
+
 
 }
