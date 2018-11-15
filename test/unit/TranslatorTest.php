@@ -199,6 +199,15 @@ class TranslatorTest extends TestCase {
 			new Translator("nav.c-menu.main-selection")
 		)[0];
 		self::assertSame($navElement, $navElement3);
+
+		$firstNavItem = $document->xPath(
+			new Translator("nav.c-menu.main-selection li")
+		)[0];
+		$selectedNavItem = $document->xPath(
+			new Translator("nav.c-menu.main-selection .selected")
+		)[0];
+		self::assertEquals("Home", trim($firstNavItem->innerText));
+		self::assertEquals("Blog", trim($selectedNavItem->innerText));
 	}
 
 	public function testSimple() {
@@ -256,7 +265,7 @@ class TranslatorTest extends TestCase {
 		self::assertEquals("Site logo", $logoLinkTextEl->innerText);
 
 		$selectedNavMenuEl = $document->xPath($selectedNavMenu)->current();
-		self::assertEquals("Home", trim($selectedNavMenuEl->innerText));
+		self::assertEquals("Blog", trim($selectedNavMenuEl->innerText));
 
 		$articleParagraphsList = $document->xPath($articleParagraphs);
 		self::assertEquals(3, $articleParagraphsList->length);
