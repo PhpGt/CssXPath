@@ -292,4 +292,11 @@ class TranslatorTest extends TestCase {
 		$checkedEl = $document->xPath($translator)->current();
 		self::assertEquals("input", $checkedEl->tagName);
 	}
+
+	public function testCheckedPseudoSelectorWithoutTagName() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$translator = new Translator(":checked");
+		$checkedEl = $document->xPath($translator)->current();
+		self::assertEquals("input", $checkedEl->tagName);
+	}
 }
