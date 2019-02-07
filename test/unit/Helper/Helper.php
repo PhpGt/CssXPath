@@ -93,6 +93,10 @@ HTML;
 			<span>Your message</span>
 			<textarea></textarea>
 		</label>
+		<label>
+			<span>Spam me with marketing?</span>
+			<input type="checkbox" name="marketing" checked />
+		</label>
 		<button name="do" value="contact">Send</button>
 	</form>
 </footer>

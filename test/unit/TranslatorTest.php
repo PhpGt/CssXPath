@@ -285,4 +285,11 @@ class TranslatorTest extends TestCase {
 		$contactFormButtonEl = $document->xPath($contactFormButton)->current();
 		self::assertEquals("Send", $contactFormButtonEl->innerText);
 	}
+
+	public function testCheckedPseudoSelector() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$translator = new Translator("input:checked");
+		$checkedEl = $document->xPath($translator)->current();
+		self::assertEquals("input", $checkedEl->tagName);
+	}
 }
