@@ -286,20 +286,10 @@ class TranslatorTest extends TestCase {
 		self::assertEquals("Send", $contactFormButtonEl->innerText);
 	}
 
-	public function testDisabledCheckedSelected() {
-		$document = new HTMLDocument(Helper::HTML_FORM);
-		$selectedGenderTranslator = new Translator("[name='gender']:selected");
-		$disabledAgeTranslator = new Translator("[name='age']:disabled");
-		$selectedAgeTranslator = new Translator("[name='age']:selected");
-		$checkedInterestTranslator = new Translator("[name='interest']:checked");
-		$selectedGenderNodeList = $document->xPath($selectedGenderTranslator);
-		$disabledAgeNodeList = $document->xPath($disabledAgeTranslator);
-		$selectedAgeNodeList = $document->xPath($selectedAgeTranslator);
-		$checkedInterestNodeList = $document->xPath($checkedInterestTranslator);
-
-		self::assertCount(1, $selectedGenderNodeList);
-		self::assertCount(1, $disabledAgeNodeList);
-		self::assertCount(1, $selectedAgeNodeList);
-		self::assertCount(3, $checkedInterestNodeList);
+	public function testCheckedPseudoSelector() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$translator = new Translator("input:checked");
+		$checkedEl = $document->xPath($translator)->current();
+		self::assertEquals("input", $checkedEl->tagName);
 	}
 }
