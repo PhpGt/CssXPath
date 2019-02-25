@@ -57,6 +57,9 @@ class Translator {
 				case 'disabled':
 				case 'checked':
 				case 'selected':
+					if(empty($prevType)) {
+						$xpath []= "*";
+					}
 					$xpath []= "[@{$item['content']}]";
 					break;
 
