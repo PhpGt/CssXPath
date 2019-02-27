@@ -299,4 +299,11 @@ class TranslatorTest extends TestCase {
 		$checkedEl = $document->xPath($translator)->current();
 		self::assertEquals("input", $checkedEl->tagName);
 	}
+
+	public function testSelectedNestedSelector() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$translator = new Translator("[name=age] :selected");
+		$selectedEl = $document->xPath($translator)->current();
+		self::assertEquals("option", $selectedEl->tagName);
+	}
 }
