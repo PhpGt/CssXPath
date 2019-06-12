@@ -39,6 +39,18 @@ class Translator {
 	}
 
 	protected function convert(string $css):string {
+		$cssArray = explode(",", $css);
+		$xPathArray = [];
+
+		foreach($cssArray as $input) {
+			$output = $this->convertSingleSelector(trim($input));
+			$xPathArray []= $output;
+		}
+
+		return implode(" | ", $xPathArray);
+	}
+
+	protected function convertSingleSelector(string $css):string {
 		$thread = $this->preg_match_collated(self::cssRegex, $css);
 		$thread = array_values($thread);
 

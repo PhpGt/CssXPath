@@ -292,4 +292,21 @@ class TranslatorTest extends TestCase {
 		$checkedEl = $document->xPath($translator)->current();
 		self::assertEquals("input", $checkedEl->tagName);
 	}
+
+	public function testCommaSeparatedSelectors() {
+// Multiple XPath selectors are separated by a pipe (|), so the CSS selector
+// `div, form` should translate to descendant-or-self::div | descendant-or-self::form`
+		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$translator = new Translator("h1, p");
+		self::assertEquals(".//h1 | .//p", $translator);
+
+		$translator = new Translator(
+			"h1, p",
+			"descendant-or-self::"
+		);
+		self::assertEquals(
+			"descendant-or-self::h1 | descendant-or-self::p",
+			$translator
+		);
+	}
 }
