@@ -17,9 +17,11 @@ class Translator {
 		. '/';
 
 	protected $cssSelector;
+	protected $prefix;
 
-	public function __construct(string $cssSelector) {
+	public function __construct(string $cssSelector, string $prefix = ".//") {
 		$this->cssSelector = $cssSelector;
+		$this->prefix = $prefix;
 	}
 
 	public function __toString():string {
@@ -34,7 +36,7 @@ class Translator {
 		$thread = $this->preg_match_collated(self::cssRegex, $css);
 		$thread = array_values($thread);
 
-		$xpath = [".//"];
+		$xpath = [$this->prefix];
 		$prevType = "";
 		foreach($thread as $k => $item) {
 			$next = isset($thread[$k + 1])
