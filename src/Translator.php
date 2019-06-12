@@ -29,7 +29,13 @@ class Translator {
 	}
 
 	public function asXPath():string {
-		return $this->convert($this->cssSelector);
+		$cssParts = explode(",", $this->cssSelector);
+		$xpathParts = [];
+		foreach($cssParts as $part) {
+			$xpathParts []= $this->convert($part);
+		}
+
+		return implode(" | ", $xpathParts);
 	}
 
 	protected function convert(string $css):string {
