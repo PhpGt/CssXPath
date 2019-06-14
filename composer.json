@@ -4,12 +4,12 @@
 	"type": "library",
 
 	"require": {
-		"php": ">=7.2.0"
+		"php": ">=7.2"
 	},
 
 	"require-dev": {
-		"phpunit/phpunit": "8.*",
-		"phpgt/dom": "1.*"
+		"phpunit/phpunit": "^8.0",
+		"phpgt/dom": "*"
 	},
 
 	"license": "MIT",
