@@ -367,23 +367,24 @@
         },
         {
             "name": "phpgt/dom",
-            "version": "v1.1.2",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/Dom.git",
-                "reference": "12011a45fad9930306466dbc5d09da6d90380d1a"
+                "reference": "a5419eacf76093a420712d13399afd4e170e2dc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Dom/zipball/12011a45fad9930306466dbc5d09da6d90380d1a",
-                "reference": "12011a45fad9930306466dbc5d09da6d90380d1a",
+                "url": "https://api.github.com/repos/PhpGt/Dom/zipball/a5419eacf76093a420712d13399afd4e170e2dc0",
+                "reference": "a5419eacf76093a420712d13399afd4e170e2dc0",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
+                "ext-libxml": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.2.0",
-                "symfony/css-selector": "3.2.14"
+                "php": ">=7.2",
+                "phpgt/cssxpath": "*"
             },
             "require-dev": {
                 "phpunit/phpunit": "8.*"
@@ -442,7 +443,7 @@
                 }
             ],
             "description": "The modern DOM API for PHP 7 projects.",
-            "time": "2019-06-10T08:13:02+00:00"
+            "time": "2019-06-14T15:24:29+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -1456,59 +1457,6 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-10-03T07:35:21+00:00"
-        },
-        {
-            "name": "symfony/css-selector",
-            "version": "v3.2.14",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/css-selector.git",
-                "reference": "02983c144038e697c959e6b06ef6666de759ccbc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/02983c144038e697c959e6b06ef6666de759ccbc",
-                "reference": "02983c144038e697c959e6b06ef6666de759ccbc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\CssSelector\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jean-François Simon",
-                    "email": "jeanfrancois.simon@sensiolabs.com"
-                },
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony CssSelector Component",
-            "homepage": "https://symfony.com",
-            "time": "2017-05-01T14:55:58+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
