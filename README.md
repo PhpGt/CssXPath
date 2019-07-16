@@ -26,6 +26,8 @@ Example usage
 
 
 ```php
+use Gt\CssXPath\Translator;
+
 $html = <<<HTML
 <form>
 	<label>
