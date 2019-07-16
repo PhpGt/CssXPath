@@ -20,3 +20,29 @@ A lightweight and dependency free CSS to XPath translator.
 <a href="http://www.php.gt/dom" target="_blank">
 	<img src="https://badge.status.php.gt/cssxpath-docs.svg" alt="PHP.Gt/CssXPath documentation" />
 </a>
+
+Example usage
+-------------
+
+
+```php
+$html = <<<HTML
+<form>
+	<label>
+		Name
+		<input name="name" />
+	</label>
+	<label>
+		Code:
+		<input name="code" />
+	</label>
+	<button name="do" value="submit">Submit code</button>
+</form>
+HTML;
+
+$document = new DOMDocument();
+$document->loadHTML($html);
+
+$xpath = new DOMXPath($document);
+$inputElementList = $xpath->query(new Translator("form>label>input");
+```
