@@ -1,7 +1,7 @@
 Translate CSS selectors to XPath queries.
 =========================================
 
-A lightweight and dependency free CSS to XPath translator.
+A lightweight and dependency free CSS to XPath translator. This repository is used to bring modern DOM functionality like `[querySelectorAll()][qsa]` to PHP in the [PHP.Gt/Dom][gt-dom] project.
 
 ***
 
@@ -48,3 +48,6 @@ $document->loadHTML($html);
 $xpath = new DOMXPath($document);
 $inputElementList = $xpath->query(new Translator("form>label>input");
 ```
+
+[qsa]: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+[gt-dom]: https://www.php.gt/dom
