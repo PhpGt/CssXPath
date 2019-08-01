@@ -196,18 +196,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "email": "sebastian@phpeople.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpeople.de"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library for handling version information and constraints",
@@ -367,16 +367,16 @@
         },
         {
             "name": "phpgt/dom",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/Dom.git",
-                "reference": "3d7070765971e3799615d64cf1cad3c24443bea2"
+                "reference": "ad48666c58910e266bb381c7ff54fc96718d3a96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Dom/zipball/3d7070765971e3799615d64cf1cad3c24443bea2",
-                "reference": "3d7070765971e3799615d64cf1cad3c24443bea2",
+                "url": "https://api.github.com/repos/PhpGt/Dom/zipball/ad48666c58910e266bb381c7ff54fc96718d3a96",
+                "reference": "ad48666c58910e266bb381c7ff54fc96718d3a96",
                 "shasum": ""
             },
             "require": {
@@ -402,48 +402,48 @@
             "authors": [
                 {
                     "name": "Greg Bowler",
+                    "role": "Developer",
                     "email": "greg.bowler@g105b.com",
-                    "homepage": "https://www.g105b.com",
-                    "role": "Developer"
+                    "homepage": "https://www.g105b.com"
                 },
                 {
                     "name": "Alvaro Guimaraes",
-                    "homepage": "https://github.com/aguimaraes",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://github.com/aguimaraes"
                 },
                 {
                     "name": "James Fellows",
-                    "homepage": "https://github.com/j4m3s",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://github.com/j4m3s"
                 },
                 {
                     "name": "Emile Ward",
-                    "homepage": "https://github.com/emileward",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://github.com/emileward"
                 },
                 {
                     "name": "Jelmer Wijnja",
-                    "homepage": "https://github.com/Jelmergu",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://github.com/Jelmergu"
                 },
                 {
                     "name": "Ognjen Petrovic",
-                    "homepage": "https://github.com/ognjen-petrovic",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://github.com/ognjen-petrovic"
                 },
                 {
                     "name": "Jacob Bearden",
-                    "homepage": "https://github.com/jacobbearden",
-                    "role": "Documentation contributor"
+                    "role": "Documentation contributor",
+                    "homepage": "https://github.com/jacobbearden"
                 },
                 {
                     "name": "Jaroslav Týc",
-                    "homepage": "https://www.jaroslavtyc.com/",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://www.jaroslavtyc.com/"
                 }
             ],
             "description": "The modern DOM API for PHP 7 projects.",
-            "time": "2019-07-08T15:06:07+00:00"
+            "time": "2019-07-31T15:30:50+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -558,8 +558,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
@@ -830,8 +830,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
