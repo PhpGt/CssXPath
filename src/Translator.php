@@ -29,17 +29,14 @@ class Translator {
 	}
 
 	public function asXPath():string {
-		$cssParts = explode(",", $this->cssSelector);
-		$xpathParts = [];
-		foreach($cssParts as $part) {
-			$xpathParts []= $this->convert($part);
-		}
-
-		return implode(" | ", $xpathParts);
+		return $this->convert($this->cssSelector);
 	}
 
 	protected function convert(string $css):string {
-		$cssArray = explode(",", $css);
+		$cssArray = preg_split(
+			'/(["\']).*?\1(*SKIP)(*F)|,/',
+			$css
+		);
 		$xPathArray = [];
 
 		foreach($cssArray as $input) {
