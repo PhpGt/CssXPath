@@ -243,7 +243,11 @@ class Translator {
 					$set [$i]= $toSet;
 				}
 				else {
-					$set []= $toSet;
+					if(!isset($set[$i]["detail"])) {
+						$set[$i]["detail"] = [];
+					}
+
+					$set[$i]["detail"] []= $toSet;
 				}
 			}
 		}
