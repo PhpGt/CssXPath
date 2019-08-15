@@ -16,6 +16,13 @@ class Translator {
 		. '|(?P<descendant>\s+)'
 		. '/';
 
+	const EQUALS_EXACT = "=";
+	const EQUALS_CONTAINS_WORD = "~=";
+	const EQUALS_ENDS_WITH = "$=";
+	const EQUALS_CONTAINS = "*=";
+	const EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED = "|=";
+	const EQUALS_STARTS_WITH = "^=";
+
 	protected $cssSelector;
 	protected $prefix;
 
@@ -169,11 +176,15 @@ class Translator {
 
 				$equalsType = $detailType["content"];
 				switch ($equalsType) {
-				case '=':
+				case self::EQUALS_EXACT:
 					$xpath []= "[@{$currentThreadItem['content']}=\"{$valueString}\"]";
 					break;
 
-				case '~=':
+				case self::EQUALS_CONTAINS:
+					// TODO.
+					break;
+
+				case self::EQUALS_CONTAINS_WORD:
 					$xpath []= "["
 						. "contains("
 						. "concat(\" \",@{$currentThreadItem['content']},\" \"),"
@@ -182,7 +193,15 @@ class Translator {
 						. "]";
 					break;
 
-				case '$=':
+				case self::EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED:
+					// TODO.
+					break;
+
+				case self::EQUALS_STARTS_WITH:
+					// TODO.
+					break;
+
+				case self::EQUALS_ENDS_WITH:
 					$xpath []= "["
 						. "substring("
 						. "@{$currentThreadItem['content']},"
