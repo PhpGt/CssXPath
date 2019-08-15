@@ -152,18 +152,22 @@ class Translator {
 					$xpath []= "*";
 				}
 
-				if (!$next || $next['type'] != 'attribute_equals') {
+				$detail = $currentThreadItem["detail"] ?? null;
+				$detailType = $detail[0] ?? null;
+				$detailValue = $detail[1] ?? null;
+
+				if(!$detailType
+				|| $detailType["type"] !== "attribute_equals") {
 					$xpath []= "[@{$currentThreadItem['content']}]";
 					continue;
 				}
 
-				$value = $thread[$threadKey+2];
 				$valueString = trim(
-					$value['content'],
+					$detailValue["content"],
 					" '\""
 				);
 
-				$equalsType = $next['content'];
+				$equalsType = $detailType["content"];
 				switch ($equalsType) {
 				case '=':
 					$xpath []= "[@{$currentThreadItem['content']}=\"{$valueString}\"]";
