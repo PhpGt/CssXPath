@@ -310,6 +310,21 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testCommaInAttributeDoesNotSeparate() {
+		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$emailTranslator = new Translator("[name=email]");
+		$messageTranslator = new Translator("[data-ga-client='(Test) Message, this has a comma']");
+
+		$emailItems = $document->xPath($emailTranslator);
+		$messageItems = $document->xPath($messageTranslator);
+
+		self::assertCount(1, $emailItems);
+		self::assertCount(1, $messageItems);
+
+		self::assertEquals("INPUT", strtoupper($emailItems[0]->tagName));
+		self::assertEquals("SPAN", strtoupper($messageItems[0]->tagName));
+	}
+
 	public function testHierarchyIsRespectedForChildSelectors() {
 		$document = new HTMLDocument(Helper::HTML_SELECTS);
 		$fromOptionTranslator = new Translator("[name=from] option");

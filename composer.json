@@ -23,5 +23,14 @@
 		"psr-4": {
 			"Gt\\CssXPath\\Test\\": "./test/unit"
 		}
-	}
+	},
+	
+	"authors": [
+		{
+			"name": "Greg Bowler",
+			"homepage": "https://www.g105b.com",
+			"email": "greg.bowler@g105b.com",
+			"role": "Developer"
+		}
+	]
 }

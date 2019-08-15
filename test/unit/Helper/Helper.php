@@ -90,7 +90,7 @@ HTML;
 			<input name="email" type="email" placeholder="e.g. j.smith@email.com" required />
 		</label>
 		<label>
-			<span>Your message</span>
+			<span data-ga-client="(Test) Message, this has a comma">Your message</span>
 			<textarea></textarea>
 		</label>
 		<label>
