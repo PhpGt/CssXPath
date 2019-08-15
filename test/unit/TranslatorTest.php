@@ -324,4 +324,16 @@ class TranslatorTest extends TestCase {
 		self::assertEquals("INPUT", strtoupper($emailItems[0]->tagName));
 		self::assertEquals("SPAN", strtoupper($messageItems[0]->tagName));
 	}
+
+	public function testHierarchyIsRespectedForChildSelectors() {
+		$document = new HTMLDocument(Helper::HTML_SELECTS);
+		$fromOptionTranslator = new Translator("[name=from] option");
+		$toOptionTranslator = new Translator("[name=to] option");
+
+		$fromOptions = $document->xPath($fromOptionTranslator);
+		$toOptions = $document->xPath($toOptionTranslator);
+
+		self::assertEquals(0, $fromOptions[0]->value);
+		self::assertEquals(5, $toOptions[0]->value);
+	}
 }

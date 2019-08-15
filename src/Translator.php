@@ -16,6 +16,13 @@ class Translator {
 		. '|(?P<descendant>\s+)'
 		. '/';
 
+	const EQUALS_EXACT = "=";
+	const EQUALS_CONTAINS_WORD = "~=";
+	const EQUALS_ENDS_WITH = "$=";
+	const EQUALS_CONTAINS = "*=";
+	const EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED = "|=";
+	const EQUALS_STARTS_WITH = "^=";
+
 	protected $cssSelector;
 	protected $prefix;
 
@@ -53,15 +60,15 @@ class Translator {
 
 		$xpath = [$this->prefix];
 		$prevType = "";
-		foreach($thread as $k => $item) {
-			$next = isset($thread[$k + 1])
-				? $thread[$k + 1]
+		foreach($thread as $threadKey => $currentThreadItem) {
+			$next = isset($thread[$threadKey + 1])
+				? $thread[$threadKey + 1]
 				: false;
 
-			switch ($item['type']) {
+			switch ($currentThreadItem['type']) {
 			case 'star':
 			case 'element':
-				$xpath []= $item['content'];
+				$xpath []= $currentThreadItem['content'];
 				break;
 
 			case 'pseudo':
@@ -70,11 +77,11 @@ class Translator {
 					$specifier = "{$next['content']}";
 				}
 
-				switch ($item['content']) {
+				switch ($currentThreadItem['content']) {
 				case 'disabled':
 				case 'checked':
 				case 'selected':
-					$xpath []= "[@{$item['content']}]";
+					$xpath []= "[@{$currentThreadItem['content']}]";
 					break;
 
 				case 'text':
@@ -131,13 +138,13 @@ class Translator {
 				break;
 
 			case 'id':
-				$xpath []= ($prevType != 'element'  ? '*' : '') . "[@id='{$item['content']}']";
+				$xpath []= ($prevType != 'element'  ? '*' : '') . "[@id='{$currentThreadItem['content']}']";
 				break;
 
 			case 'class':
 				// https://devhints.io/xpath#class-check
 				$xpath []= (($prevType != 'element' && $prevType != 'class') ? '*' : '')
-					. "[contains(concat(' ',normalize-space(@class),' '),' {$item['content']} ')]";
+					. "[contains(concat(' ',normalize-space(@class),' '),' {$currentThreadItem['content']} ')]";
 				break;
 
 			case 'sibling':
@@ -149,37 +156,53 @@ class Translator {
 					$xpath []= "*";
 				}
 
-				if (!$next || $next['type'] != 'attribute_equals') {
-					$xpath []= "[@{$item['content']}]";
+				$detail = $currentThreadItem["detail"] ?? null;
+				$detailType = $detail[0] ?? null;
+				$detailValue = $detail[1] ?? null;
+
+				if(!$detailType
+				|| $detailType["type"] !== "attribute_equals") {
+					$xpath []= "[@{$currentThreadItem['content']}]";
 					continue;
 				}
 
-				$value = $thread[$k+2];
 				$valueString = trim(
-					$value['content'],
+					$detailValue["content"],
 					" '\""
 				);
 
-				$equalsType = $next['content'];
+				$equalsType = $detailType["content"];
 				switch ($equalsType) {
-				case '=':
-					$xpath []= "[@{$item['content']}=\"{$valueString}\"]";
+				case self::EQUALS_EXACT:
+					$xpath []= "[@{$currentThreadItem['content']}=\"{$valueString}\"]";
 					break;
 
-				case '~=':
+				case self::EQUALS_CONTAINS:
+					// TODO.
+					break;
+
+				case self::EQUALS_CONTAINS_WORD:
 					$xpath []= "["
 						. "contains("
-						. "concat(\" \",@{$item['content']},\" \"),"
+						. "concat(\" \",@{$currentThreadItem['content']},\" \"),"
 						. "concat(\" \",\"{$valueString}\",\" \")"
 						. ")"
 						. "]";
 					break;
 
-				case '$=':
+				case self::EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED:
+					// TODO.
+					break;
+
+				case self::EQUALS_STARTS_WITH:
+					// TODO.
+					break;
+
+				case self::EQUALS_ENDS_WITH:
 					$xpath []= "["
 						. "substring("
-						. "@{$item['content']},"
-						. "string-length(@{$item['content']}) - "
+						. "@{$currentThreadItem['content']},"
+						. "string-length(@{$currentThreadItem['content']}) - "
 						. "string-length(\"{$valueString}\") + 1)"
 						. "=\"{$valueString}\""
 						. "]";
@@ -192,7 +215,7 @@ class Translator {
 				break;
 			}
 
-			$prevType = $item['type'];
+			$prevType = $currentThreadItem['type'];
 		}
 
 		return implode("", $xpath);
@@ -240,7 +263,11 @@ class Translator {
 					$set [$i]= $toSet;
 				}
 				else {
-					$set []= $toSet;
+					if(!isset($set[$i]["detail"])) {
+						$set[$i]["detail"] = [];
+					}
+
+					$set[$i]["detail"] []= $toSet;
 				}
 			}
 		}
