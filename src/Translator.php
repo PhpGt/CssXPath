@@ -56,15 +56,15 @@ class Translator {
 
 		$xpath = [$this->prefix];
 		$prevType = "";
-		foreach($thread as $k => $item) {
-			$next = isset($thread[$k + 1])
-				? $thread[$k + 1]
+		foreach($thread as $threadKey => $currentThreadItem) {
+			$next = isset($thread[$threadKey + 1])
+				? $thread[$threadKey + 1]
 				: false;
 
-			switch ($item['type']) {
+			switch ($currentThreadItem['type']) {
 			case 'star':
 			case 'element':
-				$xpath []= $item['content'];
+				$xpath []= $currentThreadItem['content'];
 				break;
 
 			case 'pseudo':
@@ -73,11 +73,11 @@ class Translator {
 					$specifier = "{$next['content']}";
 				}
 
-				switch ($item['content']) {
+				switch ($currentThreadItem['content']) {
 				case 'disabled':
 				case 'checked':
 				case 'selected':
-					$xpath []= "[@{$item['content']}]";
+					$xpath []= "[@{$currentThreadItem['content']}]";
 					break;
 
 				case 'text':
@@ -134,13 +134,13 @@ class Translator {
 				break;
 
 			case 'id':
-				$xpath []= ($prevType != 'element'  ? '*' : '') . "[@id='{$item['content']}']";
+				$xpath []= ($prevType != 'element'  ? '*' : '') . "[@id='{$currentThreadItem['content']}']";
 				break;
 
 			case 'class':
 				// https://devhints.io/xpath#class-check
 				$xpath []= (($prevType != 'element' && $prevType != 'class') ? '*' : '')
-					. "[contains(concat(' ',normalize-space(@class),' '),' {$item['content']} ')]";
+					. "[contains(concat(' ',normalize-space(@class),' '),' {$currentThreadItem['content']} ')]";
 				break;
 
 			case 'sibling':
@@ -153,11 +153,11 @@ class Translator {
 				}
 
 				if (!$next || $next['type'] != 'attribute_equals') {
-					$xpath []= "[@{$item['content']}]";
+					$xpath []= "[@{$currentThreadItem['content']}]";
 					continue;
 				}
 
-				$value = $thread[$k+2];
+				$value = $thread[$threadKey+2];
 				$valueString = trim(
 					$value['content'],
 					" '\""
@@ -166,13 +166,13 @@ class Translator {
 				$equalsType = $next['content'];
 				switch ($equalsType) {
 				case '=':
-					$xpath []= "[@{$item['content']}=\"{$valueString}\"]";
+					$xpath []= "[@{$currentThreadItem['content']}=\"{$valueString}\"]";
 					break;
 
 				case '~=':
 					$xpath []= "["
 						. "contains("
-						. "concat(\" \",@{$item['content']},\" \"),"
+						. "concat(\" \",@{$currentThreadItem['content']},\" \"),"
 						. "concat(\" \",\"{$valueString}\",\" \")"
 						. ")"
 						. "]";
@@ -181,8 +181,8 @@ class Translator {
 				case '$=':
 					$xpath []= "["
 						. "substring("
-						. "@{$item['content']},"
-						. "string-length(@{$item['content']}) - "
+						. "@{$currentThreadItem['content']},"
+						. "string-length(@{$currentThreadItem['content']}) - "
 						. "string-length(\"{$valueString}\") + 1)"
 						. "=\"{$valueString}\""
 						. "]";
@@ -195,7 +195,7 @@ class Translator {
 				break;
 			}
 
-			$prevType = $item['type'];
+			$prevType = $currentThreadItem['type'];
 		}
 
 		return implode("", $xpath);
