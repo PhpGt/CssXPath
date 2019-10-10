@@ -365,16 +365,16 @@
         },
         {
             "name": "phpgt/dom",
-            "version": "v2.1.2",
+            "version": "v2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/Dom.git",
-                "reference": "4df60cd75b6f86a5333cfb8a3c2d8ba0c61c2615"
+                "reference": "2348e429b9e8d4eaf2dd550632443be5c60a2206"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Dom/zipball/4df60cd75b6f86a5333cfb8a3c2d8ba0c61c2615",
-                "reference": "4df60cd75b6f86a5333cfb8a3c2d8ba0c61c2615",
+                "url": "https://api.github.com/repos/PhpGt/Dom/zipball/2348e429b9e8d4eaf2dd550632443be5c60a2206",
+                "reference": "2348e429b9e8d4eaf2dd550632443be5c60a2206",
                 "shasum": ""
             },
             "require": {
@@ -442,7 +442,7 @@
                 }
             ],
             "description": "The modern DOM API for PHP 7 projects.",
-            "time": "2019-08-15T09:40:43+00:00"
+            "time": "2019-10-09T08:44:21+00:00"
         },
         {
             "name": "phpspec/prophecy",
