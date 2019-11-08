@@ -90,7 +90,7 @@ class Translator {
 
 				case 'contains':
 					if (empty($specifier)) {
-						continue;
+						continue 3;
 					}
 
 					$xpath []= "[contains(text(),$specifier)]";
@@ -103,7 +103,7 @@ class Translator {
 
 				case 'nth-child':
 					if (empty($specifier)) {
-						continue;
+						continue 3;
 					}
 
 					$prev = count($xpath) - 1;
@@ -118,7 +118,7 @@ class Translator {
 					break;
 				case 'nth-of-type':
 					if (empty($specifier)) {
-						continue;
+						continue 3;
 					}
 
 					$prev = count($xpath) - 1;
@@ -161,9 +161,9 @@ class Translator {
 				$detailValue = $detail[1] ?? null;
 
 				if(!$detailType
-				|| $detailType["type"] !== "attribute_equals") {
+					|| $detailType["type"] !== "attribute_equals") {
 					$xpath []= "[@{$currentThreadItem['content']}]";
-					continue;
+					continue 2;
 				}
 
 				$valueString = trim(
