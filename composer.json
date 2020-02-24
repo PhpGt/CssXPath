@@ -1,5 +1,5 @@
 {
-	"name": "phpgt/cssxpath",
+	"name": "magento/cssxpath",
 	"description": "Convert CSS selectors to XPath queries.",
 	"type": "library",
 
