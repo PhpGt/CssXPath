@@ -333,7 +333,7 @@ class TranslatorTest extends TestCase {
 		$fromOptions = $document->xPath($fromOptionTranslator);
 		$toOptions = $document->xPath($toOptionTranslator);
 
-		self::assertEquals(0, $fromOptions[0]->value);
-		self::assertEquals(5, $toOptions[0]->value);
+		self::assertEquals(0, $fromOptions[0]->nodeValue);
+		self::assertEquals(5, $toOptions[0]->nodeValue);
 	}
 }
