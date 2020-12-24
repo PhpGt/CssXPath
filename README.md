@@ -5,7 +5,7 @@ A lightweight and dependency free CSS to XPath translator. This repository is us
 
 ***
 
-<a href="https://circleci.com/gh/PhpGt/CssXPath" target="_blank">
+<a href="https://github.com/PhpGt/CssXPath/actions" target="_blank">
 	<img src="https://badge.status.php.gt/cssxpath-build.svg" alt="Build status" />
 </a>
 <a href="https://scrutinizer-ci.com/g/PhpGt/CssXPath" target="_blank">
