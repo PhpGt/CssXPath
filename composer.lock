@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea34bd6ce132f099afc30f89be883b5f",
+    "content-hash": "bf0d56567da6c5b5ace025d2ed019a59",
     "packages": [],
     "packages-dev": [
         {
@@ -426,93 +426,6 @@
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "time": "2020-09-17T18:55:26+00:00"
-        },
-        {
-            "name": "phpgt/dom",
-            "version": "v2.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PhpGt/Dom.git",
-                "reference": "af202e2005fdbb2abc39e9f01defafe799dbc402"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PhpGt/Dom/zipball/af202e2005fdbb2abc39e9f01defafe799dbc402",
-                "reference": "af202e2005fdbb2abc39e9f01defafe799dbc402",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-libxml": "*",
-                "ext-mbstring": "*",
-                "php": ">=7.2",
-                "phpgt/cssxpath": ">=1.1.2",
-                "psr/http-message": "1.*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">=9.3.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Gt\\Dom\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Greg Bowler",
-                    "email": "greg.bowler@g105b.com",
-                    "homepage": "https://www.g105b.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Alvaro Guimaraes",
-                    "homepage": "https://github.com/aguimaraes",
-                    "role": "Developer"
-                },
-                {
-                    "name": "James Fellows",
-                    "homepage": "https://github.com/j4m3s",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Emile Ward",
-                    "homepage": "https://github.com/emileward",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Jelmer Wijnja",
-                    "homepage": "https://github.com/Jelmergu",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Ognjen Petrovic",
-                    "homepage": "https://github.com/ognjen-petrovic",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Jacob Bearden",
-                    "homepage": "https://github.com/jacobbearden",
-                    "role": "Documentation contributor"
-                },
-                {
-                    "name": "Jaroslav Týc",
-                    "homepage": "https://www.jaroslavtyc.com/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The modern DOM API for PHP projects.",
-            "funding": [
-                {
-                    "url": "https://github.com/phpgt",
-                    "type": "github"
-                }
-            ],
-            "time": "2020-12-23T12:31:06+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -1029,56 +942,6 @@
                 }
             ],
             "time": "2020-12-04T05:05:53+00:00"
-        },
-        {
-            "name": "psr/http-message",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-message.git",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Message\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP messages",
-            "homepage": "https://github.com/php-fig/http-message",
-            "keywords": [
-                "http",
-                "http-message",
-                "psr",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "time": "2016-08-06T14:39:51+00:00"
         },
         {
             "name": "sebastian/cli-parser",

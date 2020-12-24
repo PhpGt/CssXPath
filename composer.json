@@ -8,9 +8,10 @@
 	},
 
 	"require-dev": {
+		"ext-dom": "*",
+		"ext-libxml": "*",
 		"phpunit/phpunit": "^9.5",
-		"phpstan/phpstan": ">=0.12.42",
-		"phpgt/dom": ">=2.0"
+		"phpstan/phpstan": ">=0.12.42"
 	},
 
 	"license": "MIT",
