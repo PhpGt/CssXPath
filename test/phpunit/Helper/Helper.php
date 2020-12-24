@@ -68,7 +68,7 @@ HTML;
 			</h1>
 			<time datetime="2018-04-27 02:24:00">27th April 2018</time>
 		</header>
-		<div class="content this-is-a-test" data-categories="example test blog-test" data-test-thing="my_test">
+		<div id="content-element" class="content this-is-a-test" data-categories="example test blog-test" data-test-thing="my_test">
 			<p>Example article paragraph 1.</p>
 			<p>Example article paragraph 2.</p>
 			<p>Example article paragraph 3.</p>

@@ -2,17 +2,25 @@
 
 namespace Gt\CssXPath\Test;
 
+use DOMDocument;
+use DOMXPath;
 use PHPUnit\Framework\TestCase;
 use Gt\CssXPath\Test\Helper\Helper;
 use Gt\CssXPath\Translator;
-use Gt\Dom\HTMLDocument;
 
 class TranslatorTest extends TestCase {
+	public function setUp():void {
+		libxml_use_internal_errors(true);
+	}
+
 	public function testStar() {
-		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SIMPLE);
+		$xpath = new DOMXPath($document);
+
 		$starSelector = new Translator("*");
-		$allStarNodeList = $document->xPath($starSelector);
-		$bodyStarNodeList = $document->body->xPath($starSelector);
+		$allStarNodeList = $xpath->query($starSelector, $document);
+		$bodyStarNodeList = $xpath->query($starSelector, $document->getElementsByTagName("body")->item(0));
 
 		$expectedNodeNames = [
 			"outer" => ["html", "head", "meta", "title", "body"],
@@ -30,207 +38,237 @@ class TranslatorTest extends TestCase {
 	}
 
 	public function testElement() {
-		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SIMPLE);
+		$xpath = new DOMXPath($document);
+
 		$nodeNames = ["title", "body", "h1", "em"];
 		$nonNodeNames = ["li", "table"];
 
 		foreach($nodeNames as $nodeName) {
 			$selector = new Translator($nodeName);
-			$element = $document->xPath($selector)->current();
+			$element = $xpath->query($selector)->item(0);
 			self::assertEquals(
 				$nodeName,
-				strtolower(
-						$element->tagName
-					)
+				strtolower($element->tagName)
 			);
 		}
 
 		foreach($nonNodeNames as $nodeName) {
 			$selector = new Translator($nodeName);
-			self::assertCount(
+			self::assertEquals(
 				0,
-				$document->xPath($selector)
+				$xpath->query($selector)->length
 			);
 		}
 	}
 
 	public function testChild() {
-		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SIMPLE);
 		$pWithEmChild = new Translator("p>em");
 		$bodyWithEmChild = new Translator("body>em");
+		$xpath = new DOMXPath($document);
 
-		$element = $document->xPath($pWithEmChild)->current();
+		$element = $xpath->query($pWithEmChild)->item(0);
 		self::assertEquals("em", strtolower($element->tagName));
 
-		self::assertCount(
+		self::assertEquals(
 			0,
-			$document->xPath($bodyWithEmChild)
+			$xpath->query($bodyWithEmChild)->length
 		);
 	}
 
 	public function testId() {
-		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SIMPLE);
+
 		$idSelector = new Translator("#the-title");
 		$specificIdSelector = new Translator("h1#the-title");
 		$wrongIdSelector = new Translator("h1#not-the-title");
 
-		self::assertCount(
+		$xpath = new DOMXPath($document);
+
+		self::assertEquals(
 			1,
-			$document->xPath($idSelector)
+			$xpath->query($idSelector)->length
 		);
-		self::assertCount(
+		self::assertEquals(
 			1,
-			$document->xPath($specificIdSelector)
+			$xpath->query($specificIdSelector)->length
 		);
-		self::assertCount(
+		self::assertEquals(
 			0,
-			$document->xPath($wrongIdSelector)
+			$xpath->query($wrongIdSelector)->length
 		);
 	}
 
 	public function testSibling() {
 // Note: "+" is the adjacent sibling selector - only matching elements that come immediately after
 // another. The "~" operator is general sibling selector.
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
 // In this selector example, we should be selecting the first div after the header
 // (appearing in the body>main>article element)
 		$inputSiblingSelector = new Translator("header + div");
 		$inputSiblingSelectorNoWs = new Translator("header+div");
 
-		self::assertCount(
+		$xpath = new DOMXPath($document);
+
+		self::assertEquals(
 			1,
-			$document->xPath($inputSiblingSelector)
+			$xpath->query($inputSiblingSelector)->length
 		);
-		self::assertCount(
+		self::assertEquals(
 			1,
-			$document->xPath($inputSiblingSelectorNoWs)
+			$xpath->query($inputSiblingSelectorNoWs)->length
 		);
 	}
 
 	public function testDescendant() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
 		$articlePSelector = new Translator("article p");
 
-		self::assertCount(
+		$xpath = new DOMXPath($document);
+
+		self::assertEquals(
 			4,
-			$document->xPath($articlePSelector)
+			$xpath->query($articlePSelector)->length
 		);
 	}
 
 	public function testAttribute() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
 		$attributeRequiredKeySelector = new Translator("[required]");
-		self::assertCount(
+
+		$xpath = new DOMXPath($document);
+
+		self::assertEquals(
 			2,
-			$document->xPath($attributeRequiredKeySelector)
+			$xpath->query($attributeRequiredKeySelector)->length
 		);
 
 		$attributeNameSelector = new Translator("[name=your-name]");
-		self::assertCount(
+		self::assertEquals(
 			1,
-			$document->xPath($attributeNameSelector)
+			$xpath->query($attributeNameSelector)->length
 		);
 
 		$attributeNameSelectorWithQuotes = new Translator(
 			"[name='your-name']"
 		);
-		self::assertCount(
+		self::assertEquals(
 			1,
-			$document->xPath($attributeNameSelectorWithQuotes)
+			$xpath->query($attributeNameSelectorWithQuotes)->length
 		);
 
 		$attributeNameSelectorWithDoubleQuotes = new Translator(
 			"[name=\"your-name\"]"
 		);
-		self::assertCount(
+		self::assertEquals(
 			1,
-			$document->xPath($attributeNameSelectorWithDoubleQuotes)
+			$xpath->query($attributeNameSelectorWithDoubleQuotes)->length
 		);
 	}
 
 	public function testAttributeTildeSelector() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
-		$contentElement = $document->querySelector("article .content");
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
+		$contentElement = $document->getElementById("content-element");
+		$xpath = new DOMXPath($document);
 
 		$selector = new Translator("[data-categories~=test]");
 		self::assertSame(
 			$contentElement,
-			$document->xPath($selector)[0]
+			$xpath->query($selector)->item(0)
 		);
 
 		$selector = new Translator("[data-categories~=blog-test]");
 		self::assertSame(
 			$contentElement,
-			$document->xpath($selector)[0]
+			$xpath->query($selector)->item(0)
 		);
 
 		$selector = new Translator("[data-categories~=example]");
 		self::assertSame(
 			$contentElement,
-			$document->xpath($selector)[0]
+			$xpath->query($selector)->item(0)
 		);
 	}
 
 	public function testAttributeDollarSelector() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
+		$xpath = new DOMXPath($document);
+
 		$selector = new Translator("[data-test-thing$=test]");
-		self::assertCount(
+		self::assertEquals(
 			2,
-			$document->xPath($selector)
+			$xpath->query($selector)->length
 		);
 	}
 
 	public function testClassSelector() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
-		$navElement = $document->xPath(
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
+		$xpath = new DOMXPath($document);
+
+		$navElement = $xpath->query(
 			new Translator(".c-menu")
-		)[0];
+		)->item(0);
 		self::assertEquals(
 			"NAV",
 			strtoupper($navElement->tagName)
 		);
 
-		$navElement2 = $document->xPath(
+		$navElement2 = $xpath->query(
 			new Translator("nav.c-menu")
-		)[0];
+		)->item(0);
 		self::assertSame($navElement, $navElement2);
 
- 		$navElement3 = $document->xPath(
+ 		$navElement3 = $xpath->query(
 			new Translator("nav.c-menu.main-selection")
-		)[0];
+		)->item(0);
 		self::assertSame($navElement, $navElement3);
 
-		$firstNavItem = $document->xPath(
+		$firstNavItem = $xpath->query(
 			new Translator("nav.c-menu.main-selection li")
-		)[0];
-		$selectedNavItem = $document->xPath(
+		)->item(0);
+		$selectedNavItem = $xpath->query(
 			new Translator("nav.c-menu.main-selection .selected")
-		)[0];
-		self::assertEquals("Home", trim($firstNavItem->innerText));
-		self::assertEquals("Blog", trim($selectedNavItem->innerText));
+		)->item(0);
+
+		self::assertEquals("Home", trim($firstNavItem->nodeValue));
+		self::assertEquals("Blog", trim($selectedNavItem->nodeValue));
 	}
 
 	public function testSimple() {
-		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SIMPLE);
+
 		$bodyTranslator = new Translator("body");
 		$h1Translator = new Translator("h1");
 		$emTranslator = new Translator("p em");
 		$allTranslator = new Translator("*");
 
-		$body = $document->xPath($bodyTranslator)->current();
-		$h1 = $document->xPath($h1Translator)->current();
-		$em = $document->xPath($emTranslator)->current();
+		$xpath = new DOMXPath($document);
+
+		$body = $xpath->query($bodyTranslator)->item(0);
+		$h1 = $xpath->query($h1Translator)->item(0);
+		$em = $xpath->query($emTranslator)->item(0);
 
 		self::assertEquals("body", $body->tagName);
 		self::assertEquals("h1", $h1->tagName);
 		self::assertEquals("em", $em->tagName);
 
-		$allElements = $document->xPath($allTranslator);
-		$allElementsInBody = $document->body->xPath($allTranslator);
+		$allElements = $xpath->query($allTranslator);
+		$allElementsInBody = $xpath->query($allTranslator, $document->getElementsByTagName("body")->item(0));
 
-		self::assertCount(
+		self::assertEquals(
 			3, // h1, p, em (not body, as body is the referenceNode)
-			$allElementsInBody
+			$allElementsInBody->length
 		);
 		self::assertGreaterThan(
 			$allElementsInBody->length,
@@ -239,7 +277,9 @@ class TranslatorTest extends TestCase {
 	}
 
 	public function testComplex() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
+		$xpath = new DOMXPath($document);
 
 		$titleTranslator = new Translator("head>title");
 		$logoLinkText = new Translator(".c-logo a>span");
@@ -258,22 +298,22 @@ class TranslatorTest extends TestCase {
 			"body>footer form button[name=do][value=contact]"
 		);
 
-		$titleEl = $document->xPath($titleTranslator)->current();
-		self::assertEquals("HTML Complex", $titleEl->innerText);
+		$titleEl = $xpath->query($titleTranslator)->item(0);
+		self::assertEquals("HTML Complex", $titleEl->nodeValue);
 
-		$logoLinkTextEl = $document->xPath($logoLinkText)->current();
-		self::assertEquals("Site logo", $logoLinkTextEl->innerText);
+		$logoLinkTextEl = $xpath->query($logoLinkText)->item(0);
+		self::assertEquals("Site logo", $logoLinkTextEl->nodeValue);
 
-		$selectedNavMenuEl = $document->xPath($selectedNavMenu)->current();
-		self::assertEquals("Blog", trim($selectedNavMenuEl->innerText));
+		$selectedNavMenuEl = $xpath->query($selectedNavMenu)->item(0);
+		self::assertEquals("Blog", trim($selectedNavMenuEl->nodeValue));
 
-		$articleParagraphsList = $document->xPath($articleParagraphs);
+		$articleParagraphsList = $xpath->query($articleParagraphs);
 		self::assertEquals(3, $articleParagraphsList->length);
 
 		$contactFormEmailInputElArray = [
-			$document->xPath($contactFormEmailInput)->current(),
-			$document->xPath($contactFormEmailInputNoQuotes)->current(),
-			$document->xPath($contactFormEmailInputDoubleQuotes)->current(),
+			$xpath->query($contactFormEmailInput)->item(0),
+			$xpath->query($contactFormEmailInputNoQuotes)->item(0),
+			$xpath->query($contactFormEmailInputDoubleQuotes)->item(0),
 		];
 		foreach($contactFormEmailInputElArray as $el) {
 			self::assertEquals(
@@ -282,21 +322,27 @@ class TranslatorTest extends TestCase {
 			);
 		}
 
-		$contactFormButtonEl = $document->xPath($contactFormButton)->current();
-		self::assertEquals("Send", $contactFormButtonEl->innerText);
+		$contactFormButtonEl = $xpath->query($contactFormButton)->item(0);
+		self::assertEquals("Send", $contactFormButtonEl->nodeValue);
 	}
 
 	public function testCheckedPseudoSelector() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
+		$xpath = new DOMXPath($document);
+
 		$translator = new Translator("input:checked");
-		$checkedEl = $document->xPath($translator)->current();
+		$checkedEl = $xpath->query($translator)->item(0);
 		self::assertEquals("input", $checkedEl->tagName);
 	}
 
 	public function testCommaSeparatedSelectors() {
 // Multiple XPath selectors are separated by a pipe (|), so the CSS selector
 // `div, form` should translate to descendant-or-self::div | descendant-or-self::form`
-		$document = new HTMLDocument(Helper::HTML_SIMPLE);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SIMPLE);
+		$xpath = new DOMXPath($document);
+
 		$translator = new Translator("h1, p");
 		self::assertEquals(".//h1 | .//p", $translator);
 
@@ -311,29 +357,34 @@ class TranslatorTest extends TestCase {
 	}
 
 	public function testCommaInAttributeDoesNotSeparate() {
-		$document = new HTMLDocument(Helper::HTML_COMPLEX);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
+		$xpath = new DOMXPath($document);
+
 		$emailTranslator = new Translator("[name=email]");
 		$messageTranslator = new Translator("[data-ga-client='(Test) Message, this has a comma']");
 
-		$emailItems = $document->xPath($emailTranslator);
-		$messageItems = $document->xPath($messageTranslator);
+		$emailItems = $xpath->query($emailTranslator);
+		$messageItems = $xpath->query($messageTranslator);
 
-		self::assertCount(1, $emailItems);
-		self::assertCount(1, $messageItems);
+		self::assertEquals(1, $emailItems->length);
+		self::assertEquals(1, $messageItems->length);
 
-		self::assertEquals("INPUT", strtoupper($emailItems[0]->tagName));
-		self::assertEquals("SPAN", strtoupper($messageItems[0]->tagName));
+		self::assertEquals("input", $emailItems->item(0)->tagName);
+		self::assertEquals("span", $messageItems->item(0)->tagName);
 	}
 
 	public function testHierarchyIsRespectedForChildSelectors() {
-		$document = new HTMLDocument(Helper::HTML_SELECTS);
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SELECTS);
+		$xpath = new DOMXPath($document);
 		$fromOptionTranslator = new Translator("[name=from] option");
 		$toOptionTranslator = new Translator("[name=to] option");
 
-		$fromOptions = $document->xPath($fromOptionTranslator);
-		$toOptions = $document->xPath($toOptionTranslator);
+		$fromOptions = $xpath->query($fromOptionTranslator);
+		$toOptions = $xpath->query($toOptionTranslator);
 
-		self::assertEquals(0, $fromOptions[0]->value);
-		self::assertEquals(5, $toOptions[0]->value);
+		self::assertEquals(0, $fromOptions->item(0)->nodeValue);
+		self::assertEquals(5, $toOptions->item(0)->nodeValue);
 	}
 }

@@ -8,8 +8,10 @@
 	},
 
 	"require-dev": {
-		"phpunit/phpunit": "^8.0",
-		"phpgt/dom": "*"
+		"ext-dom": "*",
+		"ext-libxml": "*",
+		"phpunit/phpunit": "^9.5",
+		"phpstan/phpstan": ">=0.12.42"
 	},
 
 	"license": "MIT",
@@ -21,7 +23,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Gt\\CssXPath\\Test\\": "./test/unit"
+			"Gt\\CssXPath\\Test\\": "./test/phpunit"
 		}
 	},
 	
