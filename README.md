@@ -17,7 +17,7 @@ A lightweight and dependency free CSS to XPath translator. This repository is us
 <a href="https://packagist.org/packages/PhpGt/CssXPath" target="_blank">
 	<img src="https://badge.status.php.gt/cssxpath-version.svg" alt="Current version" />
 </a>
-<a href="http://www.php.gt/dom" target="_blank">
+<a href="http://www.php.gt/cssxpath" target="_blank">
 	<img src="https://badge.status.php.gt/cssxpath-docs.svg" alt="PHP.Gt/CssXPath documentation" />
 </a>
 

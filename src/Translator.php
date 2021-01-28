@@ -23,8 +23,8 @@ class Translator {
 	const EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED = "|=";
 	const EQUALS_STARTS_WITH = "^=";
 
-	protected $cssSelector;
-	protected $prefix;
+	protected string $cssSelector;
+	protected string $prefix;
 
 	public function __construct(string $cssSelector, string $prefix = ".//") {
 		$this->cssSelector = $cssSelector;
@@ -65,43 +65,52 @@ class Translator {
 				? $thread[$threadKey + 1]
 				: false;
 
-			switch ($currentThreadItem['type']) {
-			case 'star':
-			case 'element':
+			switch ($currentThreadItem["type"]) {
+			case "star":
+			case "element":
 				$xpath []= $currentThreadItem['content'];
 				break;
 
-			case 'pseudo':
-				$specifier = '';
-				if ($next && $next['type'] == 'pseudospecifier') {
+			case "pseudo":
+				$specifier = "";
+				if ($next && $next["type"] == "pseudospecifier") {
 					$specifier = "{$next['content']}";
 				}
 
-				switch ($currentThreadItem['content']) {
-				case 'disabled':
-				case 'checked':
-				case 'selected':
-					$xpath []= "[@{$currentThreadItem['content']}]";
+				switch ($currentThreadItem["content"]) {
+				case "disabled":
+				case "checked":
+				case "selected":
+					array_push(
+						$xpath,
+						"[@{$currentThreadItem['content']}]"
+					);
 					break;
 
-				case 'text':
-					$xpath []= '[@type="text"]';
+				case "text":
+					array_push(
+						$xpath,
+						'[@type="text"]'
+					);
 					break;
 
-				case 'contains':
-					if (empty($specifier)) {
+				case "contains":
+					if(empty($specifier)) {
 						continue 3;
 					}
 
-					$xpath []= "[contains(text(),$specifier)]";
+					array_push(
+						$xpath,
+						"[contains(text(),$specifier)]"
+					);
 					break;
 
-				case 'first-child':
+				case "first-child":
 					$prev = count($xpath) - 1;
 					$xpath[$prev] = '*[1]/self::' . $xpath[$prev];
 					break;
 
-				case 'nth-child':
+				case "nth-child":
 					if (empty($specifier)) {
 						continue 3;
 					}
@@ -109,14 +118,21 @@ class Translator {
 					$prev = count($xpath) - 1;
 					$previous = $xpath[$prev];
 
-					if (substr($previous, -1, 1) === ']') {
-						$xpath[$prev] = str_replace(']', " and position() = $specifier]", $xpath[$prev]);
+					if (substr($previous, -1, 1) === "]") {
+						$xpath[$prev] = str_replace(
+							"]",
+							" and position() = $specifier]",
+							$xpath[$prev]
+						);
 					}
 					else {
-						$xpath []= "[$specifier]";
+						array_push(
+							$xpath,
+							"[$specifier]"
+						);
 					}
 					break;
-				case 'nth-of-type':
+				case "nth-of-type":
 					if (empty($specifier)) {
 						continue 3;
 					}
@@ -124,45 +140,66 @@ class Translator {
 					$prev = count($xpath) - 1;
 					$previous = $xpath[$prev];
 
-					if (substr($previous, -1, 1) === ']') {
-						$xpath []= "[$specifier]";
-					} else {
-						$xpath []= "[$specifier]";
+					if(substr($previous, -1, 1) === "]") {
+						array_push(
+							$xpath,
+							"[$specifier]"
+						);
+					}
+					else {
+						array_push(
+							$xpath,
+							"[$specifier]"
+						);
 					}
 					break;
 				}
 				break;
 
-			case 'child':
-				$xpath []= '/';
+			case "child":
+				array_push($xpath, "/");
 				break;
 
-			case 'id':
-				$xpath []= ($prevType != 'element'  ? '*' : '') . "[@id='{$currentThreadItem['content']}']";
+			case "id":
+				array_push(
+					$xpath,
+					($prevType != "element"  ? '*' : '')
+					. "[@id='{$currentThreadItem['content']}']"
+				);
 				break;
 
-			case 'class':
+			case "class":
 				// https://devhints.io/xpath#class-check
-				$xpath []= (($prevType != 'element' && $prevType != 'class') ? '*' : '')
-					. "[contains(concat(' ',normalize-space(@class),' '),' {$currentThreadItem['content']} ')]";
+				array_push(
+					$xpath,
+					(($prevType != "element" && $prevType != "class") ? '*' : '')
+					. "[contains(concat(' ',normalize-space(@class),' '),' {$currentThreadItem['content']} ')]"
+				);
 				break;
 
-			case 'sibling':
-				$xpath []= "/following-sibling::*[1]/self::";
+			case "sibling":
+				array_push(
+					$xpath,
+					"/following-sibling::*[1]/self::"
+				);
 				break;
 
-			case 'attribute':
+			case "attribute":
 				if(!$prevType) {
-					$xpath []= "*";
+					array_push($xpath, "*");
 				}
 
+				/** @var null|array<int, array<string, string>> $detail */
 				$detail = $currentThreadItem["detail"] ?? null;
 				$detailType = $detail[0] ?? null;
 				$detailValue = $detail[1] ?? null;
 
 				if(!$detailType
-					|| $detailType["type"] !== "attribute_equals") {
-					$xpath []= "[@{$currentThreadItem['content']}]";
+				|| $detailType["type"] !== "attribute_equals") {
+					array_push(
+						$xpath,
+						"[@{$currentThreadItem['content']}]"
+					);
 					continue 2;
 				}
 
@@ -174,53 +211,60 @@ class Translator {
 				$equalsType = $detailType["content"];
 				switch ($equalsType) {
 				case self::EQUALS_EXACT:
-					$xpath []= "[@{$currentThreadItem['content']}=\"{$valueString}\"]";
+					array_push(
+						$xpath,
+						"[@{$currentThreadItem['content']}=\"{$valueString}\"]"
+					);
 					break;
 
 				case self::EQUALS_CONTAINS:
-					// TODO.
-					break;
+					throw new NotYetImplementedException();
 
 				case self::EQUALS_CONTAINS_WORD:
-					$xpath []= "["
+					array_push(
+						$xpath,
+						"["
 						. "contains("
 						. "concat(\" \",@{$currentThreadItem['content']},\" \"),"
 						. "concat(\" \",\"{$valueString}\",\" \")"
 						. ")"
-						. "]";
+						. "]"
+					);
 					break;
 
 				case self::EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED:
-					// TODO.
-					break;
+					throw new NotYetImplementedException();
 
 				case self::EQUALS_STARTS_WITH:
-					// TODO.
-					break;
+					throw new NotYetImplementedException();
 
 				case self::EQUALS_ENDS_WITH:
-					$xpath []= "["
+					array_push(
+						$xpath,
+						"["
 						. "substring("
 						. "@{$currentThreadItem['content']},"
 						. "string-length(@{$currentThreadItem['content']}) - "
 						. "string-length(\"{$valueString}\") + 1)"
 						. "=\"{$valueString}\""
-						. "]";
+						. "]"
+					);
 					break;
 				}
 				break;
 
-			case 'descendant':
-				$xpath []= '//';
+			case "descendant":
+				array_push($xpath, "//");
 				break;
 			}
 
-			$prevType = $currentThreadItem['type'];
+			$prevType = $currentThreadItem["type"];
 		}
 
 		return implode("", $xpath);
 	}
 
+	/** @return array<int, array<string, string>> */
 	protected function preg_match_collated(
 		string $regex,
 		string $string,
@@ -246,7 +290,7 @@ class Translator {
 			}
 
 			foreach($m as $i => $match) {
-				if($match === '') {
+				if($match === "") {
 					continue;
 				}
 
@@ -256,18 +300,18 @@ class Translator {
 					$toSet = $transform($k, $match);
 				}
 				else {
-					$toSet = ['type' => $k, 'content' => $match];
+					$toSet = ["type" => $k, "content" => $match];
 				}
 
 				if(!isset($set[$i])) {
-					$set [$i]= $toSet;
+					$set[$i] = $toSet;
 				}
 				else {
 					if(!isset($set[$i]["detail"])) {
 						$set[$i]["detail"] = [];
 					}
 
-					$set[$i]["detail"] []= $toSet;
+					array_push($set[$i]["detail"], $toSet);
 				}
 			}
 		}
