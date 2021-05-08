@@ -9,7 +9,7 @@ use Gt\CssXPath\Test\Helper\Helper;
 use Gt\CssXPath\Translator;
 
 class TranslatorTest extends TestCase {
-	public function setUp():void {
+	protected function setUp():void {
 		libxml_use_internal_errors(true);
 	}
 
