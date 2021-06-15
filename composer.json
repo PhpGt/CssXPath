@@ -34,5 +34,12 @@
 			"email": "greg.bowler@g105b.com",
 			"role": "Developer"
 		}
+	],
+	
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/PhpGt"
+		}
 	]
 }
