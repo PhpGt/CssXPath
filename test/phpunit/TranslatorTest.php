@@ -387,4 +387,14 @@ class TranslatorTest extends TestCase {
 		self::assertEquals(0, $fromOptions->item(0)->nodeValue);
 		self::assertEquals(5, $toOptions->item(0)->nodeValue);
 	}
+
+	public function testSquareBracketsNameAttribute() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_CHECKBOX);
+		$xpath = new DOMXPath($document);
+		$choiceTranslator = new Translator("[name='choice[]']");
+		$choiceInputs = $xpath->query($choiceTranslator);
+
+		self::assertEquals(3, $choiceInputs->length);
+	}
 }

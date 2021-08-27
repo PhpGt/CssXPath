@@ -134,5 +134,26 @@ HTML;
 </form>
 HTML;
 
+	const HTML_CHECKBOX = <<<HTML
+<!doctype html>
+<form method="post">
+	<p>Please select and of the following:</p>
+	
+	<label>
+		<input type="checkbox" name="choice[]" value="1" />
+		<span>Choice 1</span>
+	</label>
+	<label>
+		<input type="checkbox" name="choice[]" value="2" />
+		<span>Choice 2</span>
+	</label>
+	<label>
+		<input type="checkbox" name="choice[]" value="3" />
+		<span>Choice 3</span>
+	</label>
+	
+	<button>Submit</button>
+</form>
+HTML;
 
 }
