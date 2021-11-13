@@ -23,8 +23,10 @@ class Translator {
 	const EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED = "|=";
 	const EQUALS_STARTS_WITH = "^=";
 
-	protected string $cssSelector;
-	protected string $prefix;
+	/** @var string */
+	protected $cssSelector;
+	/** @var string */
+	protected $prefix;
 
 	public function __construct(string $cssSelector, string $prefix = ".//") {
 		$this->cssSelector = $cssSelector;
