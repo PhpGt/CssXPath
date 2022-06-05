@@ -145,12 +145,14 @@ class Translator {
 				break;
 
 			case "id":
-				$xpath[] = ($prevType != "element" ? '*' : '') . "[@id='{$currentThreadItem['content']}']";
+				$xpath[] = ($prevType != "element" ? '*' : '')
+                    . "[@id='{$currentThreadItem['content']}']";
 				break;
 
 			case "class":
 				// https://devhints.io/xpath#class-check
-				$xpath[] = (($prevType != "element" && $prevType != "class") ? '*' : '') . "[contains(concat(' ',normalize-space(@class),' '),' {$currentThreadItem['content']} ')]";
+				$xpath[] = (($prevType != "element" && $prevType != "class") ? '*' : '')
+                    . "[contains(concat(' ',normalize-space(@class),' '),' {$currentThreadItem['content']} ')]";
 				break;
 
 			case "sibling":
@@ -188,7 +190,11 @@ class Translator {
 					throw new NotYetImplementedException();
 
 				case self::EQUALS_CONTAINS_WORD:
-					$xpath[] = "[" . "contains(" . "concat(\" \",@{$currentThreadItem['content']},\" \")," . "concat(\" \",\"{$valueString}\",\" \")" . ")" . "]";
+					$xpath[] = "["
+                        . "contains("
+                        . "concat(\" \",@{$currentThreadItem['content']},\" \"),"
+                        . "concat(\" \",\"{$valueString}\",\" \")" . ")"
+                        . "]";
 					break;
 
 				case self::EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED:
@@ -198,7 +204,13 @@ class Translator {
 					throw new NotYetImplementedException();
 
 				case self::EQUALS_ENDS_WITH:
-					$xpath[] = "[" . "substring(" . "@{$currentThreadItem['content']}," . "string-length(@{$currentThreadItem['content']}) - " . "string-length(\"{$valueString}\") + 1)" . "=\"{$valueString}\"" . "]";
+					$xpath[] = "["
+                        . "substring("
+                        . "@{$currentThreadItem['content']},"
+                        . "string-length(@{$currentThreadItem['content']}) - "
+                        . "string-length(\"{$valueString}\") + 1)"
+                        . "=\"{$valueString}\""
+                        . "]";
 					break;
 				}
 				break;
