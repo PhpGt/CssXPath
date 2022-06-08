@@ -228,7 +228,7 @@ class TranslatorTest extends TestCase {
 		)->item(0);
 		self::assertSame($navElement, $navElement2);
 
- 		$navElement3 = $xpath->query(
+		$navElement3 = $xpath->query(
 			new Translator("nav.c-menu.main-selection")
 		)->item(0);
 		self::assertSame($navElement, $navElement3);
@@ -398,27 +398,27 @@ class TranslatorTest extends TestCase {
 		self::assertEquals(3, $choiceInputs->length);
 	}
 
-    public function testCombinedSelectors() {
-        $document = new DOMDocument("1.0", "UTF-8");
-        $document->loadHTML(Helper::HTML_SELECTORS);
-        $xpath = new DOMXPath($document);
+	public function testCombinedSelectors() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SELECTORS);
+		$xpath = new DOMXPath($document);
 
-        $classIdTranslator = new Translator(".content#content-element");
-        $classAttr2Translator = new Translator(".content[data-attr='2']");
+		$classIdTranslator = new Translator(".content#content-element");
+		$classAttr2Translator = new Translator(".content[data-attr='2']");
 
-        $titleEl = $xpath->query($classIdTranslator)->item(0);
-        self::assertEquals("Content with ID", $titleEl->nodeValue);
+		$titleEl = $xpath->query($classIdTranslator)->item(0);
+		self::assertEquals("Content with ID", $titleEl->nodeValue);
 
-        $attr2El = $xpath->query($classAttr2Translator)->item(0);
-        self::assertEquals("Content with attribute 2", $attr2El->nodeValue);
-    }
+		$attr2El = $xpath->query($classAttr2Translator)->item(0);
+		self::assertEquals("Content with attribute 2", $attr2El->nodeValue);
+	}
 
-    public function testChildWithAttribute() {
-        $document = new DOMDocument("1.0", "UTF-8");
-        $document->loadHTML(Helper::HTML_CHECKBOX);
-        $xpath = new DOMXPath($document);
-        $choiceTranslator = new Translator("form [name]");
-        $choiceInputs = $xpath->query($choiceTranslator);
-        self::assertEquals(3, $choiceInputs->length);
-    }
+	public function testChildWithAttribute() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_CHECKBOX);
+		$xpath = new DOMXPath($document);
+		$choiceTranslator = new Translator("form [name]");
+		$choiceInputs = $xpath->query($choiceTranslator);
+		self::assertEquals(3, $choiceInputs->length);
+	}
 }
