@@ -169,11 +169,11 @@ HTML;
 
 <main>
 	<div class="content">First content without ID</div>
-    <div id="content-element" class="content">Content with ID</div>
-    <div class="content">Second content without ID</div>
-    <div class="content" data-attr="1">Content with attribute 1</div>
-    <div class="content" data-attr="2">Content with attribute 2</div>
-    <div class="content">Third content without ID</div>
+	<div id="content-element" class="content">Content with ID</div>
+	<div class="content">Second content without ID</div>
+	<div class="content" data-attr="1">Content with attribute 1</div>
+	<div class="content" data-attr="2">Content with attribute 2</div>
+	<div class="content">Third content without ID</div>
 </main>
 
 </body>
