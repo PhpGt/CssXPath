@@ -421,4 +421,15 @@ class TranslatorTest extends TestCase {
 		$choiceInputs = $xpath->query($choiceTranslator);
 		self::assertEquals(3, $choiceInputs->length);
 	}
+
+	public function testMultipleNamedElements() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_SELECTS);
+		$xpath = new DOMXPath($document);
+		$translator = new Translator("form [name='from'], form [name='to']");
+		$selectElements = $xpath->query($translator);
+		self::assertEquals(2, $selectElements->length);
+		self::assertSame("from", $selectElements->item(0)->getAttribute("name"));
+		self::assertSame("to", $selectElements->item(1)->getAttribute("name"));
+	}
 }
