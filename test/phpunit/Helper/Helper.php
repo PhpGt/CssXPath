@@ -156,4 +156,27 @@ HTML;
 </form>
 HTML;
 
+    const HTML_SELECTORS = <<<HTML
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>HTML Complex</title>
+</head>
+<body>
+
+
+<main>
+	<div class="content">First content without ID</div>
+	<div id="content-element" class="content">Content with ID</div>
+	<div class="content">Second content without ID</div>
+	<div class="content" data-attr="1">Content with attribute 1</div>
+	<div class="content" data-attr="2">Content with attribute 2</div>
+	<div class="content">Third content without ID</div>
+</main>
+
+</body>
+</html>
+HTML;
 }
