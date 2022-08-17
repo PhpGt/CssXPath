@@ -173,6 +173,37 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testAttributeStarSelector() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML(Helper::HTML_COMPLEX);
+		$contentElement = $document->getElementById("content-element");
+		$xpath = new DOMXPath($document);
+
+		$selector = new Translator("[data-categories*=test]");
+		self::assertSame(
+			$contentElement,
+			$xpath->query($selector)->item(0)
+		);
+
+		$selector = new Translator("*[data-categories*=blog-test]");
+		self::assertSame(
+			$contentElement,
+			$xpath->query($selector)->item(0)
+		);
+
+		$selector = new Translator("div[data-categories*=xampl]");
+		self::assertSame(
+			$contentElement,
+			$xpath->query($selector)->item(0)
+		);
+
+		$selector = new Translator("[data-categories*=test]");
+		self::assertSame(
+			$contentElement,
+			$xpath->query($selector)->item(0)
+		);
+	}
+
 	public function testAttributeTildeSelector() {
 		$document = new DOMDocument("1.0", "UTF-8");
 		$document->loadHTML(Helper::HTML_COMPLEX);
