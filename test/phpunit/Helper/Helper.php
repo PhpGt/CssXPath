@@ -32,13 +32,13 @@ HTML;
 			<span>Site logo</span>
 		</a>
 	</h1>
-	
+
 	<nav class="c-menu main-selection">
 		<input type="checkbox" id="toggle-menu" />
 		<label for="toggle-menu">
 			<span>Menu</span>
 		</label>
-		
+
 		<ul>
 			<li>
 				<a href="/">Home</a>
@@ -58,7 +58,7 @@ HTML;
 
 <main>
 	<p>I'm a paragraph, but I'm not part of the article.</p>
-	
+
 	<article>
 		<header>
 			<h1>
@@ -111,24 +111,24 @@ HTML;
 	<label>
 		<span>From:</span>
 		<select name="from">
-			<option>0</option>		
-			<option>1</option>		
-			<option>2</option>		
-			<option>3</option>		
-			<option>4</option>		
-			<option>5</option>		
+			<option>0</option>
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+			<option>5</option>
 		</select>
 	</label>
-	
+
 	<label>
 		<span>To:</span>
 		<select name="to">
-			<option>5</option>		
-			<option>6</option>		
-			<option>7</option>		
-			<option>8</option>		
-			<option>9</option>		
-			<option>10</option>		
+			<option>5</option>
+			<option>6</option>
+			<option>7</option>
+			<option>8</option>
+			<option>9</option>
+			<option>10</option>
 		</select>
 	</label>
 </form>
@@ -138,7 +138,7 @@ HTML;
 <!doctype html>
 <form method="post">
 	<p>Please select and of the following:</p>
-	
+
 	<label>
 		<input type="checkbox" name="choice[]" value="1" />
 		<span>Choice 1</span>
@@ -151,12 +151,12 @@ HTML;
 		<input type="checkbox" name="choice[]" value="3" />
 		<span>Choice 3</span>
 	</label>
-	
+
 	<button>Submit</button>
 </form>
 HTML;
 
-    const HTML_SELECTORS = <<<HTML
+	const HTML_SELECTORS = <<<HTML
 <!doctype html>
 <html>
 <head>
