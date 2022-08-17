@@ -12,7 +12,7 @@ class Translator {
 		. '|(#(?P<id>[\w-]*))'
 		. '|(\.(?P<class>[\w-]*))'
 		. '|(?P<sibling>\s*\+\s*)'
-		. "|(\[(?P<attribute>[\w-]*)((?P<attribute_equals>[=~$]+)(?P<attribute_value>(.+\[\]'?)|[^\]]+))*\])+"
+		. "|(\[(?P<attribute>[\w-]*)((?P<attribute_equals>[=~$*]+)(?P<attribute_value>(.+\[\]'?)|[^\]]+))*\])+"
 		. '|(?P<descendant>\s+)'
 		. '/';
 
@@ -226,7 +226,11 @@ class Translator {
 					break;
 
 				case self::EQUALS_CONTAINS:
-					throw new NotYetImplementedException();
+					array_push(
+						$xpath,
+						"[contains(@{$currentThreadItem['content']},\"{$valueString}\")]"
+					);
+					break;
 
 				case self::EQUALS_CONTAINS_WORD:
 					array_push(
