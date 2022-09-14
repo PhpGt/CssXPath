@@ -74,11 +74,11 @@ If you are looking for a project to contribute to, we promote the use of "good f
 Once you've identified what you want to contribute to, the process of making a change to the code and updating the repository is as follows:
 
 1. [Fork the repository](https://help.github.com/articles/fork-a-repo/) so you own a copy of it.
-1. [Clone your forked repository](https://help.github.com/articles/cloning-a-repository/) to your computer.
-2. Preferably, write a unit test to cover your contribution.
-3. Make the changes to the code.
-4. [Commit and push](https://help.github.com/articles/adding-a-file-to-a-repository-using-the-command-line/) your changes back to your forked repository.
-5. [Submit a pull request](https://help.github.com/articles/creating-a-pull-request/) to the original repository at PHP.Gt.
+2. [Clone your forked repository](https://help.github.com/articles/cloning-a-repository/) to your computer.
+3. Preferably, write a unit test to cover your contribution.
+4. Make the changes to the code.
+5. [Commit and push](https://help.github.com/articles/adding-a-file-to-a-repository-using-the-command-line/) your changes back to your forked repository.
+6. [Submit a pull request](https://help.github.com/articles/creating-a-pull-request/) to the original repository at PHP.Gt.
 
 #### Submitting a pull request (PR)
 
@@ -106,7 +106,7 @@ PHP.Gt is open source and free, and always will be. If you are interested in spo
 Coding style guide
 ------------------
 
-A guide (not a rulebook) is available at https://php.gt/styleguide, which allows for developers to code in a consistent style across all repositories. It is recommended to adhere to the style guide when creating pull requests.
+A guide (not a rulebook) is available at <https://php.gt/styleguide>, which allows for developers to code in a consistent style across all repositories. It is recommended to adhere to the style guide when creating pull requests.
 
 Test driven development (TDD)
 -----------------------------
