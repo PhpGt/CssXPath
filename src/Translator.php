@@ -197,6 +197,8 @@ class Translator {
 					$hasElement = true;
 				}
 
+				$currentThreadItem['content'] = strtolower($currentThreadItem['content']);
+
 				/** @var null|array<int, array<string, string>> $detail */
 				$detail = $currentThreadItem["detail"] ?? null;
 				$detailType = $detail[0] ?? null;

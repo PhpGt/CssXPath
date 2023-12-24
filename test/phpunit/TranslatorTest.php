@@ -173,6 +173,47 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testCaseSensitivity() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML("<div data-FOO='bar'>baz</div>");
+
+		$xpath = new DOMXPath($document);
+
+
+		$attributeNameIsCaseInsensitive = new Translator(
+			"[data-FOO='bar']"
+		);
+		self::assertEquals(
+			1,
+			$xpath->query($attributeNameIsCaseInsensitive)->length
+		);
+
+		$attributeNameCaseInsensitive = new Translator(
+			"[data-foo='bar']"
+		);
+		self::assertEquals(
+			1,
+			$xpath->query($attributeNameCaseInsensitive)->length
+		);
+
+		$attributeValueCaseSensitive = new Translator(
+			"[data-foo='bar']"
+		);
+		self::assertEquals(
+			1,
+			$xpath->query($attributeValueCaseSensitive)->length
+		);
+
+		$attributeValueCaseSensitive = new Translator(
+			"[data-foo='BAR']"
+		);
+		self::assertEquals(
+			0,
+			$xpath->query($attributeValueCaseSensitive)->length
+		);
+
+	}
+
 	public function testAttributeStarSelector() {
 		$document = new DOMDocument("1.0", "UTF-8");
 		$document->loadHTML(Helper::HTML_COMPLEX);
