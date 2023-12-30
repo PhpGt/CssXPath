@@ -21,7 +21,7 @@ jobs:
         run: mkdir /tmp/github-actions/ && tar -cvf /tmp/github-actions/build.tar ./
 
       - name: Upload build archive for test runners
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: /tmp/github-actions
@@ -31,7 +31,7 @@ jobs:
     needs: [composer]
 
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: /tmp/github-actions
