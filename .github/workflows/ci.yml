@@ -29,7 +29,7 @@ jobs:
       - name: Upload build archive for test runners
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact-${{ runner.os }}-${{ matrix.php }}
+          name: build-php${{ matrix.php }}
           path: /tmp/github-actions
 
   phpunit:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: build-artifact-${{ runner.os }}-${{ matrix.php }}
+          name: build-php${{ matrix.php }}
           path: /tmp/github-actions
 
       - name: Extract build archive
@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: build-artifact-${{ runner.os }}-${{ matrix.php }}
+          name: build-php${{ matrix.php }}
           path: /tmp/github-actions
 
       - name: Extract build archive
@@ -78,3 +78,18 @@ jobs:
         with:
           path: src/
           php_version: ${{ matrix.php }}
+
+  remove_old_artifacts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Remove old artifacts for prior workflow runs on this repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "/repos/${{ github.repository }}/actions/artifacts?name=build" | jq ".artifacts[] | select(.name == \"build\") | .id" > artifact-id-list.txt
+          while read id
+          do
+            echo -n "Deleting artifact ID $id ... "
+            gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/$id && echo "Done"
+          done <artifact-id-list.txt
