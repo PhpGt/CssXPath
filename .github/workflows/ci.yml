@@ -16,7 +16,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/composer-cache
-          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Composer
         uses: php-actions/composer@run-as-current-user
@@ -29,7 +29,7 @@ jobs:
       - name: Upload build archive for test runners
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifact
+          name: build-artifact-${{ runner.os }}-${{ matrix.php }}
           path: /tmp/github-actions
 
   phpunit:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: build-artifact-${{ runner.os }}-${{ matrix.php }}
           path: /tmp/github-actions
 
       - name: Extract build archive
@@ -66,7 +66,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: build-artifact
+          name: build-artifact-${{ runner.os }}-${{ matrix.php }}
           path: /tmp/github-actions
 
       - name: Extract build archive
