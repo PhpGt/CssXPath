@@ -49,8 +49,9 @@ jobs:
         run: tar -xvf /tmp/github-actions/build.tar ./
 
       - name: PHP Unit tests
-        uses: php-actions/phpunit@composer-version--user
+        uses: php-actions/phpunit@v3
         with:
+          version: 9
           php_version: ${{ matrix.php }}
           php_extensions: xdebug
           configuration: test/phpunit/phpunit.xml
