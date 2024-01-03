@@ -173,7 +173,7 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
-	public function testCaseSensitivity() {
+	public function testCaseSensitivityHtmlMode() {
 		$document = new DOMDocument("1.0", "UTF-8");
 		$document->loadHTML("<div data-FOO='bar'>baz</div>");
 
@@ -206,6 +206,44 @@ class TranslatorTest extends TestCase {
 
 		$attributeValueCaseSensitive = new Translator(
 			"[data-foo='BAR']"
+		);
+		self::assertEquals(
+			0,
+			$xpath->query($attributeValueCaseSensitive)->length
+		);
+
+	}
+
+	public function testCaseSensitivityXmlMode() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadXML('<div data-FOO="bar">baz</div>');
+
+		$xpath = new DOMXPath($document);
+
+		$attributeNameAndValueIsCaseSensitive = new Translator(
+			"[data-FOO='bar']",
+			prefix: '//',
+			htmlMode: false
+		);
+		self::assertEquals(
+			1,
+			$xpath->query($attributeNameAndValueIsCaseSensitive)->length
+		);
+
+		$attributeNameIsCaseSensitive = new Translator(
+			"[data-foo='bar']",
+			prefix: '//',
+			htmlMode: false
+		);
+		self::assertEquals(
+			0,
+			$xpath->query($attributeNameIsCaseSensitive)->length
+		);
+
+		$attributeValueCaseSensitive = new Translator(
+			"[data-FOO='BAR']",
+			prefix: '//',
+			htmlMode: false
 		);
 		self::assertEquals(
 			0,
