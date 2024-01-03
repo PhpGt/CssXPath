@@ -23,14 +23,11 @@ class Translator {
 	const EQUALS_OR_STARTS_WITH_HYPHENATED = "|=";
 	const EQUALS_STARTS_WITH = "^=";
 
-	/** @var string */
-	protected $cssSelector;
-	/** @var string */
-	protected $prefix;
-
-	public function __construct(string $cssSelector, string $prefix = ".//") {
-		$this->cssSelector = $cssSelector;
-		$this->prefix = $prefix;
+	public function __construct(
+			protected string $cssSelector, 
+			protected string $prefix = ".//", 
+			protected bool $htmlMode = true
+		) {
 	}
 
 	public function __toString():string {
@@ -195,6 +192,10 @@ class Translator {
 				if(!$hasElement) {
 					array_push($xpath, "*");
 					$hasElement = true;
+				}
+
+				if($this->htmlMode) {
+					$currentThreadItem['content'] = strtolower($currentThreadItem['content']);
 				}
 
 				/** @var null|array<int, array<string, string>> $detail */

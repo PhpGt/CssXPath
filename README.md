@@ -49,5 +49,15 @@ $xpath = new DOMXPath($document);
 $inputElementList = $xpath->query(new Translator("form>label>input");
 ```
 
+## Using this library with XML Documents
+
+To correctly work with XML documents, where the attributes are case-sensitive, pass `false` to the `htmlMode` property of the constructor.
+
+```php
+$translator = new Translator("[data-FOO='bar']", htmlMode: false);
+```
+
+It's perhaps worth noting that for XML-style matching to work, you must load the document content with DOMDocument->load/DOMDocument->loadXML instead of DOMDocument->loadHTMLFile/DOMDocument->loadHTML, as the HTML loading methods automatically convert the tags and attribute names to lowercase. This is handled automatically when using [PHP.Gt/Dom][gt-dom].
+
 [qsa]: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
 [gt-dom]: https://www.php.gt/dom
