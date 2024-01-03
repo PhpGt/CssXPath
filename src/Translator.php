@@ -12,7 +12,7 @@ class Translator {
 		. '|(#(?P<id>[\w-]*))'
 		. '|(\.(?P<class>[\w-]*))'
 		. '|(?P<sibling>\s*\+\s*)'
-		. "|(\[(?P<attribute>[\w-]*)((?P<attribute_equals>[=~$*]+)(?P<attribute_value>(.+\[\]'?)|[^\]]+))*\])+"
+		. "|(\[(?P<attribute>[\w-]*)((?P<attribute_equals>[=~$|^*]+)(?P<attribute_value>(.+\[\]'?)|[^\]]+))*\])+"
 		. '|(?P<descendant>\s+)'
 		. '/';
 
@@ -20,7 +20,7 @@ class Translator {
 	const EQUALS_CONTAINS_WORD = "~=";
 	const EQUALS_ENDS_WITH = "$=";
 	const EQUALS_CONTAINS = "*=";
-	const EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED = "|=";
+	const EQUALS_OR_STARTS_WITH_HYPHENATED = "|=";
 	const EQUALS_STARTS_WITH = "^=";
 
 	public function __construct(
@@ -245,11 +245,24 @@ class Translator {
 					);
 					break;
 
-				case self::EQUALS_STARTS_WITH_OR_STARTS_WITH_HYPHENATED:
-					throw new NotYetImplementedException();
+				case self::EQUALS_OR_STARTS_WITH_HYPHENATED:
+					array_push(
+						$xpath,
+						"["
+						. "@{$currentThreadItem['content']}=\"{$valueString}\" or "
+						. "starts-with(@{$currentThreadItem['content']}, \"{$valueString}-\")"
+						. "]"
+					);
+					break;
 
 				case self::EQUALS_STARTS_WITH:
-					throw new NotYetImplementedException();
+					array_push(
+						$xpath,
+						"[starts-with("
+						. "@{$currentThreadItem['content']}, \"{$valueString}\""
+						. ")]"
+					);
+					break;
 
 				case self::EQUALS_ENDS_WITH:
 					array_push(

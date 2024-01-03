@@ -320,6 +320,30 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testAttributeEqualsOrStartsWithHypehnatedSelector() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML("<div class='en'></div><div class='en-'></div><div class='en-uk'></div><div class='es'></div>");
+		$xpath = new DOMXPath($document);
+
+		$selector = new Translator("[class|=en]");
+		self::assertEquals(
+			3,
+			$xpath->query($selector)->length
+		);
+	}
+
+	public function testAttributeStartsWithSelector() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML("<div class='class1'></div><div class='foo class1'></div><div class='class1 class2'></div><div class='class2'></div>");
+		$xpath = new DOMXPath($document);
+
+		$selector = new Translator("[class^=class1]");
+		self::assertEquals(
+			2,
+			$xpath->query($selector)->length
+		);
+	}
+
 	public function testClassSelector() {
 		$document = new DOMDocument("1.0", "UTF-8");
 		$document->loadHTML(Helper::HTML_COMPLEX);
