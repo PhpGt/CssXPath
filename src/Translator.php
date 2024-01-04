@@ -136,6 +136,30 @@ class Translator {
 						);
 					}
 					break;
+
+				case "last-child":
+					$prev = count($xpath) - 1;
+					$xpath[$prev] = '*[last()]/self::' . $xpath[$prev];
+					break;
+
+				case 'first-of-type':
+					$prev = count($xpath) - 1;
+					$previous = $xpath[$prev];
+
+					if(substr($previous, -1, 1) === "]") {
+						array_push(
+							$xpath,
+							"[1]"
+						);
+					}
+					else {
+						array_push(
+							$xpath,
+							"[1]"
+						);
+					}
+					break;
+
 				case "nth-of-type":
 					if (empty($specifier)) {
 						continue 3;
@@ -157,6 +181,25 @@ class Translator {
 						);
 					}
 					break;
+
+				case "last-of-type":
+					$prev = count($xpath) - 1;
+					$previous = $xpath[$prev];
+
+					if(substr($previous, -1, 1) === "]") {
+						array_push(
+							$xpath,
+							"[last()]"
+						);
+					}
+					else {
+						array_push(
+							$xpath,
+							"[last()]"
+						);
+					}
+					break;					
+
 				}
 				break;
 
