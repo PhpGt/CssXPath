@@ -11,7 +11,7 @@ A lightweight and dependency free CSS to XPath translator. This repository is us
 <a href="https://app.codacy.com/gh/PhpGt/CssXPath" target="_blank">
 	<img src="https://badge.status.php.gt/cssxpath-quality.svg" alt="Code quality" />
 </a>
-<a href="https://scrutinizer-ci.com/g/PhpGt/CssXPath" target="_blank">
+<a href="https://app.codecov.io/gh/PhpGt/CssXPath" target="_blank">
 	<img src="https://badge.status.php.gt/cssxpath-coverage.svg" alt="Code coverage" />
 </a>
 <a href="https://packagist.org/packages/PhpGt/CssXPath" target="_blank">
