@@ -67,7 +67,11 @@ class Translator {
 			switch ($currentThreadItem["type"]) {
 			case "star":
 			case "element":
-				$xpath []= $currentThreadItem['content'];
+				if($this->htmlMode) {
+					$xpath []= strtolower($currentThreadItem['content']);
+				} else {
+					$xpath []= $currentThreadItem['content'];
+				}
 				$hasElement = true;
 				break;
 

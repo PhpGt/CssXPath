@@ -211,6 +211,14 @@ class TranslatorTest extends TestCase {
 			0,
 			$xpath->query($attributeValueCaseSensitive)->length
 		);
+		
+		$tagNameCaseInsensitive = new Translator(
+			"dIv"
+		);
+		self::assertEquals(
+			1,
+			$xpath->query($tagNameCaseInsensitive)->length
+		);
 
 	}
 
