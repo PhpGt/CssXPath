@@ -79,6 +79,91 @@ class TranslatorTest extends TestCase {
 		);
 	}
 
+	public function testFirstOfTypeNthOfTypeLastOfType() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML('<dl>
+			<dt>gigogne</dt>
+			<dd>
+			<dl>
+				<dt>fusee</dt>
+				<dd>multistage rocket</dd>
+				<dt>table</dt>
+				<dd>nest of tables</dd>
+			</dl>
+			</dd>
+		</dl>');
+
+		$xpath = new DOMXPath($document);
+		$selector = new Translator('dl dt:first-of-type');
+
+		$matches = $xpath->query($selector);
+		self::assertEquals(2, count($matches));
+		self::assertEquals('gigogne', $matches->item(0)->nodeValue);
+		self::assertEquals('fusee', $matches->item(1)->nodeValue);
+
+		$selector = new Translator('dl dt:nth-of-type(2)');
+
+		$matches = $xpath->query($selector);
+		self::assertEquals(1, count($matches));
+		self::assertEquals('table', $matches->item(0)->nodeValue);
+
+		$selector = new Translator('dl dt:last-of-type');
+
+		$matches = $xpath->query($selector);
+		self::assertEquals(2, count($matches));
+		self::assertEquals('gigogne', $matches->item(0)->nodeValue);
+		self::assertEquals('table', $matches->item(1)->nodeValue);
+	}
+
+	public function testFirstNthLastChild() {
+		$document = new DOMDocument("1.0", "UTF-8");
+		$document->loadHTML('<div><p>Track & field champions:</p>
+		<ul>
+		  <li>Adhemar da Silva</li>
+		  <li>Wang Junxia</li>
+		  <li>Wilma Rudolph</li>
+		  <li>Babe Didrikson-Zaharias</li>
+		  <li>Betty Cuthbert</li>
+		  <li>Fanny Blankers-Koen</li>
+		  <li>Florence Griffith-Joyner</li>
+		</ul></div>
+		 ');
+		$xpath = new DOMXPath($document);
+
+		$firstChild = new Translator("li:first-child");
+		$elements = $xpath->query($firstChild);
+		self::assertEquals(1, $elements->length);
+		$element = $elements->item(0);
+
+		self::assertEquals("li", strtolower($element->tagName));
+		self::assertEquals(
+			'Adhemar da Silva',
+			$element->nodeValue
+		);
+
+		$nthChild = new Translator("li:nth-child(3)");
+		$elements = $xpath->query($nthChild);
+		self::assertEquals(1, $elements->length);
+		$element = $elements->item(0);
+
+		self::assertEquals("li", strtolower($element->tagName));
+		self::assertEquals(
+			'Wilma Rudolph',
+			$element->nodeValue
+		);
+
+		$lastChild = new Translator("li:last-child");
+		$elements = $xpath->query($lastChild);
+		self::assertEquals(1, $elements->length);
+		$element = $elements->item(0);
+
+		self::assertEquals("li", strtolower($element->tagName));
+		self::assertEquals(
+			'Florence Griffith-Joyner',
+			$element->nodeValue
+		);
+	}
+
 	public function testId() {
 		$document = new DOMDocument("1.0", "UTF-8");
 		$document->loadHTML(Helper::HTML_SIMPLE);
@@ -210,6 +295,14 @@ class TranslatorTest extends TestCase {
 		self::assertEquals(
 			0,
 			$xpath->query($attributeValueCaseSensitive)->length
+		);
+		
+		$tagNameCaseInsensitive = new Translator(
+			"dIv"
+		);
+		self::assertEquals(
+			1,
+			$xpath->query($tagNameCaseInsensitive)->length
 		);
 
 	}
